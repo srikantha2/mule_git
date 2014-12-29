@@ -1,0 +1,11 @@
+package com.bakka.testing.proxy;
+
+public class MoneyResponse {
+
+	 private String sender;
+	    private String receiver;
+	    private String origin;
+	    private String destination;
+	    private String amount;
+	    private int confirmationNumber;
+}

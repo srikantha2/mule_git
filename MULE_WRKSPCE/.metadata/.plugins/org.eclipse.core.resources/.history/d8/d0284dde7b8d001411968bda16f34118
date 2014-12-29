@@ -1,0 +1,4 @@
+
+CREATE TABLE BAKKI_ROCKS.myMules (
+    Content VARCHAR(20) NOT NULL
+    ); 

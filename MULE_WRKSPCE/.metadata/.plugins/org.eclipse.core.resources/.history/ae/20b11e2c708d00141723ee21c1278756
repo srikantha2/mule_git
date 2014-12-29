@@ -1,0 +1,1 @@
+select * from bakki_rocks.mytable;

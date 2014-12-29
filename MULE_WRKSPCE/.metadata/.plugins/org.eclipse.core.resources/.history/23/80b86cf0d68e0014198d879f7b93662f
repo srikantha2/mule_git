@@ -1,0 +1,5 @@
+package com.bakka.testing.rest;
+
+public class HelloRESTService {
+
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+    <db:mysql-config name="MySQL_Configuration" host="localhost" port="3306" user="root" password="admin" database="temp" doc:name="MySQL Configuration"/>
+    <data-mapper:config name="List_Map__To_CSV" transformationGraphPath="list_map__to_csv.grf" doc:name="List_Map__To_CSV"/>
+    <file:connector name="File" autoDelete="false" streaming="true" validateConnections="true" doc:name="File"/>
+    <batch:job name="dbexample2Batch1" scheduling-strategy="ROUND_ROBIN">
+        <batch:threading-profile poolExhaustedAction="WAIT"/>
+        <batch:input>
+            <poll doc:name="Poll">
+                <processor-chain doc:name="Processor Chain">
+                    <db:select config-ref="MySQL_Configuration" doc:name="Database">
+                        <db:parameterized-query><![CDATA[select e.firstname, e.lastname, e.emailId, f.familyroletype from employeeinfo e, familyrole f where e.roleId= f.idFamilyRole;]]></db:parameterized-query>
+                    </db:select>
+                </processor-chain>
+            </poll>
+        </batch:input>
+        <batch:process-records>
+            <batch:step name="Batch_Step">
+                <batch:commit doc:name="Batch Commit" streaming="true">
+                    <data-mapper:transform doc:name="List&lt;Map&gt; To CSV" config-ref="List_Map__To_CSV"/>
+                    <file:outbound-endpoint path="C:\Users\prakash\Desktop\tshirt_test_1" responseTimeout="10000" doc:name="File"/>
+                </batch:commit>
+            </batch:step>
+        </batch:process-records>
+        <batch:on-complete>
+            <logger level="WARN" doc:name="Logger" message="Total Records exported: #[message.payload.getLoadedRecords()], Failed Records: #[message.payload.getFailedRecords()], Processing time: #[message.payload.getElapsedTimeInMillis()]"/>
+        </batch:on-complete>
+    </batch:job>
+</mule>

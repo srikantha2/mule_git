@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+    <db:mysql-config name="MySQL_Configuration" host="localhost" port="3306" user="root" password="admin" database="temp" doc:name="MySQL Configuration"/>
+    <data-mapper:config name="CSV_To_Map" transformationGraphPath="csv_to_map.grf" doc:name="CSV_To_Map"/>
+    <batch:job name="dbexample4Batch1">
+        <batch:threading-profile poolExhaustedAction="WAIT"/>
+        <batch:input>
+            <poll doc:name="Poll">
+                <fixed-frequency-scheduler frequency="1000"/>
+                <file:outbound-endpoint path="src/main/resources/input" responseTimeout="10000" doc:name="File"/>
+            </poll>
+        </batch:input>
+        <batch:process-records>
+            <batch:step name="Batch_Step">
+                <data-mapper:transform config-ref="CSV_To_Map" doc:name="CSV To Map"/>
+                <enricher doc:name="Message Enricher">
+                    <db:select config-ref="MySQL_Configuration" doc:name="Database">
+                        <db:parameterized-query><![CDATA[SELECT firstname,lastname,email FROM temp.contact WHERE email=#[payload.email]]]></db:parameterized-query>
+                    </db:select>
+                    <enrich source="#[payload.size() > 0]" target="#[recordVars['exists']]"/>
+                    <enrich source="#[payload]" target="#[recordVars['dbRecord']]"/>
+                </enricher>
+            </batch:step>
+            <batch:step name="Batch_Step1">
+                <choice doc:name="Choice">
+                    <when expression="#[recordVars['exists']==false]">
+                        <db:insert config-ref="MySQL_Configuration" doc:name="Create contact">
+                            <db:parameterized-query><![CDATA[INSERT INTO temp.contact (firstname, lastname, email) VALUES (#[payload.firstname],#[payload.lastname],#[payload.email])]]></db:parameterized-query>
+                        </db:insert>
+                    </when>
+                    <when expression="#[recordVars['exists']==true and recordVars['dbRecord'] != null]">
+                        <db:update config-ref="MySQL_Configuration" doc:name="Update Contact">
+                            <db:parameterized-query><![CDATA[UPDATE temp.contact SET firstname=#[payload.firstname],lastname=#[payload.lastname] WHERE email = #[payload.email]]]></db:parameterized-query>
+                        </db:update>
+                    </when>
+                    <otherwise>
+                        <logger doc:name="Logger" level="INFO" message="Error with #[payload.email] contact"/>
+                    </otherwise>
+                </choice>
+            </batch:step>
+        </batch:process-records>
+        <batch:on-complete>
+            <logger level="INFO" doc:name="Logger"/>
+        </batch:on-complete>
+    </batch:job>
+</mule>

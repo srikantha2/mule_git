@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=javaproject1/src\/main\/java&lt;com.bakka.test.java{DataEcho.java[DataEcho" modifiers="1" timestamp="1419711884000"/>
+<typeInfo handle="=javaproject2/src\/main\/java&lt;com.bakka.test{FileProcesser.java[FileProcesser" modifiers="1" timestamp="1419714624000"/>
+<typeInfo handle="=javaproject3/src\/main\/java&lt;com.bakka.test{ContactInfo.java[ContactInfo" modifiers="1" timestamp="1419714924000"/>
+<typeInfo handle="=javaproject3/src\/main\/java&lt;com.bakka.test{EmployeesInfo.java[EmployeesInfo" modifiers="1" timestamp="1419715064000"/>
+<typeInfo handle="=javaproject4/src\/main\/java&lt;com.bakka.testing.company{DisplayContacts.java[DisplayContacts" modifiers="1" timestamp="1419716110000"/>
+<typeInfo handle="=javaproject4/src\/main\/java&lt;com.bakka.testing.company{EContactInfo.java[EContactInfo" modifiers="1" timestamp="1419715938000"/>
+<typeInfo handle="=restproject3/src\/main\/java&lt;com.bakka.test.rest{RestImpl.java[RestImpl" modifiers="1" timestamp="1419720290000"/>
+<typeInfo handle="=restproject4/src\/main\/java&lt;com.bakka.testing.rest{HelloRESTService.java[HelloRESTService" modifiers="1" timestamp="1419801994000"/>
+<typeInfo handle="=restproject5/src\/main\/java&lt;com.bakka.testing.rest.object{RestWithJsonOrXml.java[RestWithJsonOrXml" modifiers="1" timestamp="1419803736000"/>
+<typeInfo handle="=soapproject3/src\/main\/java&lt;com.bakka.testing.proxy{IBankService.java[IBankService" modifiers="513" timestamp="1419817154000"/>
+<typeInfo handle="=soapproject3/src\/main\/java&lt;com.bakka.testing.proxy{IBankServiceImpl.java[IBankServiceImpl" modifiers="1" timestamp="1419817310000"/>
+<typeInfo handle="=soapproject4/src\/main\/java&lt;com.bakka.testing.soap{IGreetService.java[IGreetService" modifiers="513" timestamp="1419823786000"/>
+<typeInfo handle="=soapproject4/src\/main\/java&lt;com.bakka.testing.soap{IGreetServiceImpl.java[IGreetServiceImpl" modifiers="1" timestamp="1419823832000"/>
+</typeInfoHistroy>

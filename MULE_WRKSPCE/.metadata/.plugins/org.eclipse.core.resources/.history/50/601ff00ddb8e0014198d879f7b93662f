@@ -1,0 +1,9 @@
+package com.bakka.testing.rest.object;
+
+public class Customer {
+	
+	String id;
+	String name;
+	String address;
+
+}

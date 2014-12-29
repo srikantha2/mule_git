@@ -1,0 +1,21 @@
+/**
+ * 
+ */
+package com.bakka.testing.proxy;
+
+/**
+ * @author prakash
+ *
+ */
+public class IBankServiceImpl implements IBankService {
+
+	/* (non-Javadoc)
+	 * @see com.bakka.testing.proxy.IBankService#sendMoney(com.bakka.testing.proxy.MoneyRequest)
+	 */
+	@Override
+	public MoneyResponse sendMoney(MoneyRequest mrq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

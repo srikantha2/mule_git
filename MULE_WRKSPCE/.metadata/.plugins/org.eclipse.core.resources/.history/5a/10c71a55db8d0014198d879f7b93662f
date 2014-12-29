@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" version="EE-3.5.2" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:context="http://www.springframework.org/schema/context" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+ 	
+
+    
+   <context:property-placeholder location="connectors.properties"/>
+    <sfdc:config doc:name="Salesforce" name="Salesforce_Configuration" password="${sfdc.password}" securityToken="${sfdc.securityToken}" username="${sfdc.user}">
+        <sfdc:connection-pooling-profile exhaustedAction="WHEN_EXHAUSTED_GROW" initialisationPolicy="INITIALISE_ONE"/>
+    </sfdc:config>
+    <db:mysql-config database="temp" doc:name="MySQL Configuration" host="localhost" name="MySQL_Configuration" password="admin" port="3306" user="root"/>
+<file:inbound-endpoint doc:name="File Input" moveToDirectory="src/test/resources/output" path="src/test/resources/input" pollingFrequency="10000" responseTimeout="10000"/>
+    <data-mapper:config name="CSV_To_Map" transformationGraphPath="csv_to_map.grf" doc:name="CSV_To_Map"/>
+    <db:mysql-config name="MySQL_Configuration1" host="localhost" port="3306" user="root" password="admin" database="temp" doc:name="MySQL Configuration"/>
+    <batch:job name="salesforce-to-database-Batch1">
+        <batch:threading-profile poolExhaustedAction="WAIT"/>
+        <batch:input>
+            <poll doc:name="Poll">
+                <fixed-frequency-scheduler frequency="30" startDelay="10" timeUnit="MINUTES"/>
+                <watermark default-expression="#['1900-12-11T14:16:00.000Z']" selector="MAX" selector-expression="#[payload.LastModifiedDate]" variable="timestamp"/>
+                <file:outbound-endpoint path="I:\MULE_WRKSPCE\salesforce-to-database\src\main\resources\input"  responseTimeout="10000" doc:name="File"/>
+            </poll>
+        </batch:input>
+        <batch:process-records>
+            <batch:step name="Batch_Step1">
+                <data-mapper:transform config-ref="CSV_To_Map" doc:name="CSV To Map"/>
+                <enricher doc:name="Message Enricher">
+                        <db:select config-ref="MySQL_Configuration1" doc:name="Check existence in Database">
+                        <db:parameterized-query><![CDATA[SELECT firstname,lastname,email FROM temp.contact WHERE email=#[payload.email]]]></db:parameterized-query>
+                        </db:select>
+                    <enrich source="#[payload.size() > 0]" target="#[recordVars['exists']]"/>
+                    <enrich source="#[payload]" target="#[recordVars['dbRecord']]"/>
+                </enricher>
+            </batch:step>
+            <batch:step name="Batch_Stepx">
+                <choice doc:name="Choice">
+                    <when expression="#[recordVars['exists']==false]">
+                        <db:insert config-ref="MySQL_Configuration" doc:name="Create contact">
+                            <db:parameterized-query><![CDATA[INSERT INTO contact (firstname, lastname, email) VALUES (#[payload.first_name],#[payload.last_name],#[payload.email])]]></db:parameterized-query>
+                        </db:insert>
+                    </when>
+                    <when expression="#[recordVars['exists']==true and recordVars['dbRecord'] != null]">
+                        <db:update config-ref="MySQL_Configuration" doc:name="Update Contact">
+                            <db:parameterized-query><![CDATA[UPDATE temp.contact SET firstname=#[payload.first_name],lastname=#[payload.last_name] WHERE email = #[payload.email]]]></db:parameterized-query>
+                        </db:update>
+                    </when>
+                    <otherwise>
+                        <logger doc:name="Logger" level="INFO" message="Error with #[payload.email] contact"/>
+                    </otherwise>
+                </choice>
+            </batch:step>
+        </batch:process-records>
+        <batch:on-complete>
+            <logger doc:name="Log completion" level="INFO" message="Batch sf->db has finished"/>
+        </batch:on-complete>
+    </batch:job>
+    
+</mule>

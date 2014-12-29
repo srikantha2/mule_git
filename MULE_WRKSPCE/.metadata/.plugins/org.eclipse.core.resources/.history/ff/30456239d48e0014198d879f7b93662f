@@ -1,0 +1,14 @@
+/**
+ * 
+ */
+package com.bakka.test.soap;
+
+/**
+ * @author prakash
+ *
+ */
+public interface IHelloWorld {
+	
+	public String wishAll(String name);
+
+}

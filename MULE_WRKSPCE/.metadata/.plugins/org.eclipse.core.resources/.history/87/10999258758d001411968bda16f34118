@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" version="EE-3.5.2" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+    <db:derby-config name="Derby_Configuration" user="scott" password="tiger" doc:name="Derby Configuration"/>
+    <data-mapper:config name="CSV_To_Map" transformationGraphPath="csv_to_map.grf" doc:name="CSV_To_Map"/>
+    <flow doc:description="Upload a csv file of contact information into Salesforce as new contacts." doc:name="Contacts_to_SFDC" name="Contacts_to_SFDC">
+        <file:inbound-endpoint doc:name="File Input" moveToDirectory="src/test/resources/output" path="src/test/resources/input" pollingFrequency="10000" responseTimeout="10000"/>
+        <data-mapper:transform config-ref="CSV_To_Map" doc:name="CSV To Map"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <foreach   doc:name="For Each">
+            <db:insert config-ref="Derby_Configuration" bulkMode="true" doc:name="Database">
+                <db:parameterized-query><![CDATA[INSERT INTO BAKKI_ROCKS.myMule (first_name, last_name,phone, email) VALUES (#[payload.first_name],#[payload.last_name],#[payload.phone],#[payload.email])]]></db:parameterized-query>
+            </db:insert>
+        </foreach>
+    </flow>
+</mule>

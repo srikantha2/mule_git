@@ -1,0 +1,21 @@
+/**
+ * 
+ */
+package com.bakka.test.soap;
+
+/**
+ * @author prakash
+ *
+ */
+public class IHelloWorldImpl implements IHelloWorld {
+
+	/* (non-Javadoc)
+	 * @see com.bakka.test.soap.IHelloWorld#wishAll(java.lang.String)
+	 */
+	@Override
+	public String wishAll(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

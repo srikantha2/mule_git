@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-project xmlns="http://www.mulesoft.com/tooling/project" runtimeId="org.mule.tooling.server.3.5.2.ee" schemaVersion="3.5.0.0">
+    <name>connect-with-salesforce</name>
+    <description>Facilitates connectivity between an on-prem system and a SaaS application. See: http://www.mulesoft.org/documentation/display/current/Connect+with+Salesforce+Example</description>
+    <muleExtension name="Salesforce" qualifier="org.mule.tooling.ui.contribution.sfdc.3.5.0"/>
+</mule-project>

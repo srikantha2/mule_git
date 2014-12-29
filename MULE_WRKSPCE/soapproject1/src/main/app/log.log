@@ -1,0 +1,13 @@
+payload1:/soapclient/codefirst2
+payload2:org.mule.module.cxf.transport.MuleUniversalConduit$1@17dbeaf
+Loading default outbound transformer: org.mule.transport.http.transformers.ObjectToHttpClientMethodRequest
+Loading default response transformer: org.mule.transport.http.transformers.MuleMessageToHttpResponse
+Loading default outbound transformer: org.mule.transport.http.transformers.ObjectToHttpClientMethodRequest
+eManager: Initialising: 'connector.http.mule.default.dispatcher.5791530'. Object is: HttpClientMessageDispatcher
+eManager: Starting: 'connector.http.mule.default.dispatcher.5791530'. Object is: HttpClientMessageDispatcher
+eProcessor: payload 5:org.apache.commons.httpclient.ChunkedInputStream@11e1aa5
+INFO  2014-12-28 19:42:41,497 [[soapexample1].connector.http.mule.default.receiver.03] org.mule.api.processor.LoggerMessageProcessor: payload6:/soapclient/codefirst2
+your hitting the actual service here
+: payload7:Hello Mr./soapclient/codefirst2, Good Morning!!
+: payload3:org.mule.transport.http.ReleasingInputStream@1af2bc
+: payload4:<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><ns2:wishAllResponse xmlns:ns2="http://soap.test.bakka.com/"><return>Hello Mr./soapclient/codefirst2, Good Morning!!</return></ns2:wishAllResponse></soap:Body></soap:Envelope>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd">
+    <sub-flow name="soapclientsubflow1" doc:name="soapclientsubflow1">
+        <set-payload value="#[{'160.20.10.21',''}]" doc:name="Set Payload"/>
+        <cxf:jaxws-client operation="ResolveIP" clientClass="com.bakka.testing.clients.IP2Geo" port="IP2GeoSoap" doc:name="CXF"/>
+        <http:outbound-endpoint exchange-pattern="request-response" method="POST" address="http://ws.cdyne.com/ip2geo/ip2geo.asmx" doc:name="HTTP"/>
+    </sub-flow>
+    <flow name="soapproject2Flow2" doc:name="soapproject2Flow2">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8082" path="soapclient/wsdlfirst" doc:name="HTTP"/>
+        <flow-ref name="soapclientsubflow1" doc:name="Flow Reference"/>
+        <mulexml:object-to-xml-transformer doc:name="Object to XML"/>
+    </flow>
+</mule>

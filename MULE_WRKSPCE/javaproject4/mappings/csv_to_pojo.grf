@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph __version="3.5.0" author="prakash" created="Sat Dec 27 09:44:46 EST 2014" description="CSV To Pojo" guiVersion="3.4.4.P" id="1419716324562" licenseCode="Unlicensed" licenseType="Unknown" modified="Sat Dec 27 09:44:46 EST 2014" modifiedBy="prakash" name="CSV_To_Pojo" preview-file="${Project_Home}/src/main/resources/input/contacts.csv" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __referenceCounter="1" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _type="Input" id="59bd269e-d2b3-40bd-be2d-7ffc7bd0acb6">
+<Record fieldDelimiter="," name="contacts" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field containerType="SINGLE" label="FirstName" name="FirstName" size="10" type="string"/>
+<Field containerType="SINGLE" label="LastName" name="LastName" size="10" type="string"/>
+<Field containerType="SINGLE" label="Phone" name="Phone" size="10" type="string"/>
+<Field containerType="SINGLE" label="Email" name="Email" size="10" type="string"/>
+<Field containerType="SINGLE" label="City" name="City" size="10" type="string"/>
+<Field containerType="SINGLE" label="State" name="State" size="10" type="string"/>
+<Field containerType="SINGLE" eofAsDelimiter="true" label="Country" name="Country" size="10" type="string"/>
+<Field __artificialType="_id" auto_filling="global_row_count" name="__id" type="long"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/list" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="8753c910-5ffc-44b9-adf6-f1e6e28fb823">
+<Record fieldDelimiter="," name="list" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/list/address/city" containerType="SINGLE" label="city" name="city" type="string"/>
+<Field __index="1" __sourcePath="{}/list/address/country" containerType="SINGLE" label="country" name="country" type="string"/>
+<Field __index="2" __sourcePath="{}/list/address/state" containerType="SINGLE" label="state" name="state" type="string"/>
+<Field __index="3" __sourcePath="{}/list/email" containerType="SINGLE" label="email" name="email" type="string"/>
+<Field __index="4" __sourcePath="{}/list/firstName" containerType="SINGLE" label="firstName" name="firstName" type="string"/>
+<Field __index="5" __sourcePath="{}/list/lastName" containerType="SINGLE" label="lastName" name="lastName" type="string"/>
+<Field __index="6" __sourcePath="{}/list/phone" containerType="SINGLE" label="phone" name="phone" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:collection clover:name="list" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
+  <item clover:inPort="0">
+    <address>
+      <city>$0.city</city>
+      <country>$0.country</country>
+      <state>$0.state</state>
+    </address>
+    <email>$0.email</email>
+    <firstName>$0.firstName</firstName>
+    <lastName>$0.lastName</lastName>
+    <phone>$0.phone</phone>
+  </item>
+</clover:collection>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<schema-object>
+  <schema-collection>
+    <typed-object-ref type-ref="com.bakka.testing.company.EContactInfo"/>
+  </schema-collection>
+  <typed-object type="com.bakka.testing.company.AddressInfo">
+    <typed-object-ref name="city" type-ref="java.lang.String"/>
+    <typed-object-ref name="country" type-ref="java.lang.String"/>
+    <typed-object-ref name="state" type-ref="java.lang.String"/>
+  </typed-object>
+  <typed-object type="com.bakka.testing.company.EContactInfo">
+    <typed-object-ref name="address" type-ref="com.bakka.testing.company.AddressInfo"/>
+    <typed-object-ref name="email" type-ref="java.lang.String"/>
+    <typed-object-ref name="firstName" type-ref="java.lang.String"/>
+    <typed-object-ref name="lastName" type-ref="java.lang.String"/>
+    <typed-object-ref name="phone" type-ref="java.lang.String"/>
+  </typed-object>
+  <typed-object type="java.lang.String"/>
+</schema-object>
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="CSV READER" guiX="20" guiY="20" id="DATA_READER0" quoteCharacter="both" quotedStrings="true" skipRows="1" trim="true" type="DATA_READER">
+<attr name="_data_format"><![CDATA[CSV]]></attr>
+<attr name="__dataSourceDefinition"><![CDATA[${Project_Home}/src/main/resources/input/contacts.csv]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'contacts' -&gt; 'list'" guiX="460" guiY="20" id="FOREACH_CONTACTS_LIST" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = num2str(input.__id);
+//END -> DO NOT REMOVE
+output.firstName = input.FirstName;
+output.lastName = input.LastName;
+output.phone = input.Phone;
+output.email = input.Email;
+output.city = input.City;
+output.state = input.State;
+output.country = input.Country;
+]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="DATA_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="59bd269e-d2b3-40bd-be2d-7ffc7bd0acb6" outPort="Port 0 (output)" toNode="FOREACH_CONTACTS_LIST:0"/>
+<Edge debugMode="true" fromNode="FOREACH_CONTACTS_LIST:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="8753c910-5ffc-44b9-adf6-f1e6e28fb823" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+</Phase>
+</Graph>

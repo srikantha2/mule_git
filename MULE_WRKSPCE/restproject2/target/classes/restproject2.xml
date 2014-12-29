@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+    <flow name="restproject2Flow1" doc:name="restproject2Flow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8087" path="rest" doc:name="HTTP"/>
+        <http:body-to-parameter-map-transformer doc:name="Body to Parameter Map"/>
+        <response>
+            <mulexml:object-to-xml-transformer doc:name="Object to XML">
+                <mulexml:alias name="persons" class="java.util.Map"/>
+                <mulexml:converter class="com.bakka.testing.rest.PersonConverter"/>
+            </mulexml:object-to-xml-transformer>
+        </response>
+    </flow>
+</mule>

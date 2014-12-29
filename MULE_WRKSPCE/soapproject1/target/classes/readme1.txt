@@ -1,0 +1,2 @@
+http://training.middlewareschool.com/mule/soap-code-first-build/
+http://training.middlewareschool.com/mule/consuming-soap-code-first-service/

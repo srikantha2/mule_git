@@ -1,0 +1,8 @@
+package com.bakka.test;
+
+public class FileProcesser {
+	public void processFile(List<Map<String, String>> maps) {
+        System.out.println(maps);
+        System.out.println("Size: " + maps.size());
+    }
+}
