@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="29" version="2.0">
+<workbench progressCount="30" version="2.0">
 <workbenchAdvisor/>
 <window height="728" maximized="true" width="640" x="0" y="0">
 <fastViewData fastViewLocation="1024">
@@ -34,6 +34,7 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.wst.xsd.ui.internal.editor.InternalXSDMultiPageEditor" itemType="typePlaceholder" x="104" y="22"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
@@ -89,9 +90,6 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Warnings (10 items)"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="173" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="255" org.eclipse.ui.ide.resourceField="215" org.eclipse.ui.ide.severityAndDescriptionField="556"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -125,7 +123,7 @@
 <view id="org.eclipse.ui.views.ProgressView" partName="Progress">
 <viewState/>
 </view>
-<view id="org.mule.tooling.properties.views.MulePropertiesView" partName="String To Xml&lt;AuthenticationHeader&gt;">
+<view id="org.mule.tooling.properties.views.MulePropertiesView" partName="Mule Properties View">
 <viewState/>
 </view>
 <view id="org.mule.tooling.connectivitytesting.views.ConnectivityTestingView" partName="Connections Explorer (web-service-consumer)">
@@ -313,8 +311,8 @@
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.19968553" ratioLeft="254" ratioRight="1018" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.65" ratioLeft="403" ratioRight="217" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ProgressView" appearance="2" expanded="2">
-<page content="org.mule.tooling.properties.views.MulePropertiesView" label="String To Xml&lt;AuthenticationHeader&gt;"/>
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
+<page content="org.mule.tooling.properties.views.MulePropertiesView" label="Mule Properties View"/>
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.mule.tooling.connectivitytesting.views.ConnectivityTestingView" label="Connections Explorer (web-service-consumer)"/>
 <page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
@@ -510,9 +508,9 @@
 <show_view_action id="org.eclipse.egit.ui.ReflogView"/>
 <new_wizard_action id="org.raml.apikitWizard"/>
 <perspective_action id="com.cloveretl.gui.perspective.ETLPerspective"/>
+<hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <hide_toolbar_item_id id="org.eclipse.debug.ui.commands.RunToLine"/>
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
-<hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <view id="org.eclipse.egit.ui.RepositoriesView"/>
 <view id="org.eclipse.ui.views.PropertySheet"/>
 <view id="org.eclipse.team.ui.GenericHistoryView"/>
@@ -571,9 +569,9 @@
 <new_wizard_action id="org.raml.apikitWizard"/>
 <perspective_action id="org.eclipse.ui.resourcePerspective"/>
 <perspective_action id="com.cloveretl.gui.perspective.ETLPerspective"/>
+<hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <hide_toolbar_item_id id="org.eclipse.debug.ui.commands.RunToLine"/>
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
-<hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <view id="org.eclipse.team.sync.views.SynchronizeView"/>
 <view id="org.eclipse.team.ui.GenericHistoryView"/>
 <view id="org.eclipse.ui.views.TaskList"/>
@@ -624,6 +622,27 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.mule.tooling.messageflow.messageFlowEditor" name="vmproject2.xml" tooltip="RestConsumePoc/src/main/app/vmproject2.xml">
+<persistable path="/RestConsumePoc/src/main/app/vmproject2.xml"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.mule.tooling.messageflow.messageFlowEditor" name="vmproject1.xml" tooltip="RestConsumePoc/src/main/app/vmproject1.xml">
+<persistable path="/RestConsumePoc/src/main/app/vmproject1.xml"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.mule.tooling.messageflow.messageFlowEditor" name="vmproject1.xml" tooltip="vmproject1/src/main/app/vmproject1.xml">
+<persistable path="/vmproject1/src/main/app/vmproject1.xml"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.mule.tooling.messageflow.messageFlowEditor" name="db1example12.xml" tooltip="db1example1/src/main/app/db1example12.xml">
+<persistable path="/db1example1/src/main/app/db1example12.xml"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.wst.xsd.ui.internal.editor.InternalXSDMultiPageEditor" name="Customer.xsd" tooltip="mqrestpojopoc/src/test/resources/Customer.xsd">
+<persistable path="/mqrestpojopoc/src/test/resources/Customer.xsd"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.mule.tooling.messageflow.messageFlowEditor" name="mqrestpojopoc.xml" tooltip="mqrestpojopoc/src/main/app/mqrestpojopoc.xml">
+<persistable path="/mqrestpojopoc/src/main/app/mqrestpojopoc.xml"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="readme.txt" tooltip="vmproject1/src/main/app/readme.txt">
+<persistable path="/vmproject1/src/main/app/readme.txt"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="tshirt.wsdl" tooltip="web-service-consumer/src/main/resources/tshirt.wsdl">
 <persistable path="/web-service-consumer/src/main/resources/tshirt.wsdl"/>
 </file>
@@ -647,27 +666,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.PropertiesFileEditor" name="mule-app.properties" tooltip="soapproject3/src/main/app/mule-app.properties">
 <persistable path="/soapproject3/src/main/app/mule-app.properties"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.PropertiesFileEditor" name="mule-deploy.properties" tooltip="soapproject3/src/main/app/mule-deploy.properties">
-<persistable path="/soapproject3/src/main/app/mule-deploy.properties"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.mule.tooling.messageflow.messageFlowEditor" name="soapproject3.xml" tooltip="soapproject3/src/main/app/soapproject3.xml">
-<persistable path="/soapproject3/src/main/app/soapproject3.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IP2Geo.java" tooltip="soapproject2/src/main/java/com/bakka/testing/clients/IP2Geo.java">
-<persistable path="/soapproject2/src/main/java/com/bakka/testing/clients/IP2Geo.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="readme.txt" tooltip="soapproject2/src/main/app/readme.txt">
-<persistable path="/soapproject2/src/main/app/readme.txt"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.mule.tooling.messageflow.messageFlowEditor" name="soapproject2.xml" tooltip="soapproject2/src/main/app/soapproject2.xml">
-<persistable path="/soapproject2/src/main/app/soapproject2.xml"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IHelloWorld.java" tooltip="soapproject1/src/main/java/com/bakka/test/soap/IHelloWorld.java">
-<persistable path="/soapproject1/src/main/java/com/bakka/test/soap/IHelloWorld.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.mule.tooling.messageflow.messageFlowEditor" name="soapexample1.xml" tooltip="soapproject1/src/main/app/soapexample1.xml">
-<persistable path="/soapproject1/src/main/app/soapexample1.xml"/>
 </file>
 </mruList>
 </workbench>
