@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/vm
+http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http
+http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/jms
+http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/core
+http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+">
+
+ <!--<start id="ch05_aggregateResponses_lis"/>-->
+<flow name="aggregateResponses" doc:name="aggregateResponses">
+        <vm:inbound-endpoint exchange-pattern="request-response" 
+            path="order.netprice" 
+            doc:name="VM"/> <!--<co id="ch05-aggregateResponses-1-cod"/>-->
+        <all doc:name="All"><!--<co id="ch05-aggregateResponses-2-cod"/>-->
+            <http:outbound-endpoint 
+                exchange-pattern="request-response" 
+                host="api.internal.prancingdonkey.com" 
+                port="9091" path="shipping" doc:name="HTTP"/>
+            <http:outbound-endpoint 
+                exchange-pattern="request-response" 
+                host="api.internal.prancingdonkey.com" 
+                port="9091" path="tax" doc:name="HTTP"/>
+        </all>
+        <expression-transformer 
+            expression="payload[0].toBigDecimal() 
+                      + payload[1].toBigDecimal()" 
+            doc:name="Expression"/><!--<co id="ch05-aggregateResponses-3-cod"/>-->
+    </flow>
+<!--<end id="ch05_aggregateResponses_lis"/>-->
+
+  </mule>

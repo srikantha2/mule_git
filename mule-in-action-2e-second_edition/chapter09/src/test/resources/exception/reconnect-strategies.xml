@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans"
+	xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/3.2/mule-http.xsd
+        http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd">
+        
+<!--<start id="lis_09_reconnect-strategies-reconnect"/>-->
+<jms:activemq-connector name="jmsConnector">
+    <reconnect count="5" frequency="1000"/>
+</jms:activemq-connector>
+<!--<end id="lis_09_reconnect-strategies-reconnect"/>-->
+
+<!--<start id="lis_09_reconnect-strategies-reconnect-forever"/>-->
+<jms:activemq-connector name="jmsInboundConnector">
+    <reconnect-forever  frequency="1000" />
+</jms:activemq-connector>
+<jms:activemq-connector name="jmsOutboundConnector">
+    <reconnect count="5" frequency="1000" />
+</jms:activemq-connector>
+<!--<end id="lis_09_reconnect-strategies-reconnect-forever"/>-->
+
+<!--<start id="lis_09_reconnect-strategies-custom"/>-->
+<jms:activemq-connector name="jmsWithCustomReconnect">
+  <reconnect-custom-strategy 
+    class=
+"com.prancingdonkey.reconnect.WorkingHoursAwareRetryPolicyTemplate">
+    <spring:property name="companyWorkStartHour" value="9"/>
+    <spring:property name="companyWorkEndHour" value="18"/>
+    <spring:property name="intervalInWorkingHours" value="5000"/>
+    <spring:property name="intervalInNonWorkingHours" 
+        value="360000000"/>
+    <spring:property name="timeZone" 
+      value="$[T(TimeZone).getTimeZone('America/Los_Angeles')]"/>
+  </reconnect-custom-strategy>
+</jms:activemq-connector>
+<!--<end id="lis_09_reconnect-strategies-custom"/>-->
+
+<!--<start id="lis_09_reconnect-strategies-non-blocking"/>-->
+<configuration>
+	<!-- TODO: Waiting for http://gsfn.us/t/37bz2 -->
+    <reconnect-forever frequency="5000" blocking="true"/>
+</configuration>
+<!--<end id="lis_09_reconnect-strategies-non-blocking"/>-->
+</mule>

@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
     <data-mapper:config name="CSV_To_Map" transformationGraphPath="csv_to_map.grf" doc:name="CSV_To_Map"/>
     <flow name="javaproject2Flow1" doc:name="javaproject2Flow1">
-        <file:inbound-endpoint path="I:\MULE_WRKSPCE\javaproject2\src\main\resources\input" moveToDirectory="I:\MULE_WRKSPCE\javaproject2\src\main\resources\output" responseTimeout="10000" doc:name="File"/>
+        <file:inbound-endpoint path="src/main/resources/input" moveToDirectory="src/main/resources/output" responseTimeout="10000" doc:name="File"/>
         <logger message="Message &#8211; #[string: output #[message]]" level="WARN" doc:name="Logger"/>
         <data-mapper:transform config-ref="CSV_To_Map" doc:name="CSV To Map"/>
         <component class="com.bakka.test.FileProcesser" doc:name="Java"/>

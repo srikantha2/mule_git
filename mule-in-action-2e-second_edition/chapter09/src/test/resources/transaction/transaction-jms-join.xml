@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+
+<!--<start id="lis_09_jms-join-transaction"/>-->
+<jms:activemq-connector name="jmsConnector" specification="1.1" />
+    
+<flow name="URLAlertingFlow">
+    <jms:inbound-endpoint queue="messages" 
+        exchange-pattern="request-response">
+        <jms:transaction action="ALWAYS_BEGIN"/><!--<co id="lis_09_jms-join-transaction_1" />-->
+    </jms:inbound-endpoint>
+    
+    <regex-filter pattern="^STATUS: (OK|SUCCESS)$"/>
+    
+    <component class=
+        "com.prancingdonkey.component.BusinessComponent"/>
+            
+    <jms:outbound-endpoint queue="processed.messages">
+        <jms:transaction action="ALWAYS_JOIN"/><!--<co id="lis_09_jms-join-transaction_2" />-->
+    </jms:outbound-endpoint>
+</flow>
+<!--<end id="lis_09_jms-join-transaction"/>-->
+
+</mule>

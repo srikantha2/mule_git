@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp"
+
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+      xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http
+http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/jms
+http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/smtp
+http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
+http://www.mulesoft.org/schema/mule/core
+http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mongo
+http://www.mulesoft.org/schema/mule/mongo/2.0/mule-mongo.xsd
+ http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+
+">
+
+
+    <mongo:config name="mongoDB"
+                  username="${mongo.user}"
+                  password="${mongo.password}"
+                  database="prancingdonkey"
+                  host="${mongo.host}" />
+
+ <!--<start id="ch05_processSalesForceAlert_lis"/>-->
+    <flow name="processSalesForceAlert" >
+        <vm:inbound-endpoint exchange-pattern="one-way" 
+            path="alerts.salesforce" doc:name="VM"/>
+        <logger message="#[payload]" level="INFO"/><!--<co id="ch05_processSalesForceAlert-1-cod"/>-->
+
+        <all ><!--<co id="ch05_processSalesForceAlert-2-cod"/>-->
+            <processor-chain>
+                <smtp:outbound-endpoint host="localhost" 
+                port="25" 
+                responseTimeout="10000" 
+               /><!--<co id="h05_processSalesForceAlert-3-cod"/>-->
+            </processor-chain>
+            <processor-chain>
+                <mongo:json-to-dbobject/>
+                <mongo:insert-object
+                        config-ref="Mongo_DB"
+                        collection="alerts"
+                /><!--<co id="h05_processSalesForceAlert-4-cod"/>-->
+            </processor-chain>
+        </all>
+    </flow>
+    <!--<end id="ch05_processSalesForceAlert_lis"/>-->
+ 
+ </mule>

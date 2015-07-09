@@ -1,0 +1,11 @@
+Input:
+http://localhost:8086/rest?name=Sam&age=30
+
+Output:
+<persons>
+  <Person>
+    <name>Sam</name>
+    <age>30</age>
+  </Person>
+</persons>
+

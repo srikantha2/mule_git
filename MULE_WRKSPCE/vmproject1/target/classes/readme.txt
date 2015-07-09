@@ -1,1 +1,0 @@
-http://training.middlewareschool.com/mule/vm-transport/

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
+        http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+     
+<!--<start id="lis_09_exception-strategies-catch"/>-->
+<flow name="ShippingCostCalculatorFlow">
+  <vm:inbound-endpoint path="calculateShippingCost.in" 
+	exchange-pattern="request-response" />
+  <component>
+    <singleton-object 
+	  class="com.prancingdonkey.component.ShippingCostCalculator" />
+  </component>
+  <catch-exception-strategy><!--<co id="lis_09_exception-strategies-catch_1" />-->
+    <set-payload value="Error: #[exception.summaryMessage]"/>
+    <logger message=
+      "ShippingCost error : #[exception.summaryMessage]" 
+      level="ERROR" /><!--<co id="lis_09_exception-strategies-catch_2" />-->
+  </catch-exception-strategy>
+</flow>
+<!--<end id="lis_09_exception-strategies-catch"/>-->
+
+</mule>

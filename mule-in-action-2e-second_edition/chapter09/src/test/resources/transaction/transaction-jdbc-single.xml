@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:jdbc="http://www.mulesoft.org/schema/mule/jdbc"
+	xmlns:spring="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+        http://www.mulesoft.org/schema/mule/jdbc http://www.mulesoft.org/schema/mule/jdbc/current/mule-jdbc.xsd">
+
+<!--<start id="lis_09_jdbc-single-transaction"/>-->
+<spring:beans>
+    <spring:import resource="spring-config.xml"/>
+</spring:beans>
+         
+<jms:activemq-connector name="jmsConnector" specification="1.1" />
+    
+<jdbc:connector name="jdbcConnector" dataSource-ref="dataSource">
+    <jdbc:query key="statsInsert"
+        value="INSERT INTO PERF_METRICS VALUES  
+         (0,#[message.payload.CLIENT_ID],'AVG_RESPONSE_TIME',
+            #[message.payload.AVG_RESPONSE_TIME],
+            #[message.payload.TIMESTAMP]),
+         (0,#[message.payload.CLIENT_ID], 'MED_RESPONSE_TIME',
+            #[message.payload.MED_RESPONSE_TIME],
+            #[message.payload.TIMESTAMP]),
+         (0,#[message.payload.CLIENT_ID],'MAX_RESPONSE_TIME',
+            #[message.payload.MAX_RESPONSE_TIME],
+            #[message.payload.TIMESTAMP])"/><!--<co id="lis_09_jdbc-single-transaction_1" />-->
+ </jdbc:connector>
+
+<flow name="URLAlertingFlow">
+    <jms:inbound-endpoint topic="monitoring.performance" 
+        exchange-pattern="request-response"/>
+    
+    <component class=
+        "com.prancingdonkey.component.URLMetricsComponent"/>
+            
+    <jdbc:outbound-endpoint queryKey="statsInsert"><!--<co id="lis_09_jdbc-single-transaction_2" />-->
+        <jdbc:transaction action="ALWAYS_BEGIN"/><!--<co id="lis_09_jdbc-single-transaction_3" />-->
+    </jdbc:outbound-endpoint>
+</flow>
+<!--<end id="lis_09_jdbc-single-transaction"/>-->
+
+</mule>

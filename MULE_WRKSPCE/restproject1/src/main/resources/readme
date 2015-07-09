@@ -1,1 +1,9 @@
 http://technicalmumbojumbo.wordpress.com/2014/06/23/mule-tutorial-series-restful-webservice/
+
+Input:
+
+http://localhost:8086/rest?name=Sam&age=30
+
+Output:
+<?xml version="1.0" encoding="UTF-8"?>
+<table><record><field name="name" type="java.lang.String">Sam</field><field name="age" type="java.lang.String">30</field></record></table>

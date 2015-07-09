@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph __version="3.5.0" author="prakash" created="Thu Dec 25 21:18:04 EST 2014" description="Xml&lt;TrackOrderResponse&gt; To JSON" guiVersion="3.4.4.P" id="1419562652644" licenseCode="Unlicensed" licenseType="Unknown" modified="Thu Dec 25 21:18:04 EST 2014" modifiedBy="prakash" name="Xml_TrackOrderResponse__To_JSON" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __filteredMetadata="false" __index="0" __referenceCounter="1" __sourcePath="{http://mulesoft.org/tshirt-service=ns0}/ns0:TrackOrderResponse" _dataStructure="OBJECT" _id="__id" _type="Input" id="b7a015a6-f440-46c5-8d54-4ceeabec53c0">
+<Record fieldDelimiter="," name="TrackOrderResponse" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{http://mulesoft.org/tshirt-service=ns0}/ns0:TrackOrderResponse/orderId" containerType="SINGLE" label="orderId" name="orderId" type="string"/>
+<Field __index="1" __sourcePath="{http://mulesoft.org/tshirt-service=ns0}/ns0:TrackOrderResponse/status" containerType="SINGLE" label="status" name="status" type="string"/>
+<Field __index="2" __sourcePath="{http://mulesoft.org/tshirt-service=ns0}/ns0:TrackOrderResponse/size" containerType="SINGLE" label="size" name="size" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/TrackOrderResponse" _dataStructure="OBJECT" _id="__id" _type="Output" id="3474eedd-8f47-407a-852c-f377bb7f51d9">
+<Record fieldDelimiter="," name="TrackOrderResponse" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/TrackOrderResponse/orderId" containerType="SINGLE" label="orderId" name="orderId" type="string"/>
+<Field __index="2" __sourcePath="{}/TrackOrderResponse/size" containerType="SINGLE" label="size" name="size" type="string"/>
+<Field __index="1" __sourcePath="{}/TrackOrderResponse/status" containerType="SINGLE" label="status" name="status" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" guiName="Foreach 'ns0:TrackOrderResponse' -&gt; 'TrackOrderResponse'" guiX="460" guiY="20" id="FOREACH_NS0_TRACK_ORDER_RESPONSE_TRACK_ORDER_RESPONSE" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.orderId = input.orderId;
+output.status = input.status;
+output.size = input.size;
+]]></attr>
+</Node>
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="JSON WRITER" guiX="900" guiY="20" id="JSON_WRITER0" type="JSON_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<TrackOrderResponse xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <orderId>$0.orderId</orderId>
+  <status>$0.status</status>
+  <size>$0.size</size>
+</TrackOrderResponse>]]></attr>
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context namespacePaths="ns0=&quot;http://mulesoft.org/tshirt-service&quot;" outPort="0" sequenceField="__id" xpath="/ns0:TrackOrderResponse">
+  <Mapping cloverField="orderId" trim="true" xpath="orderId"/>
+  <Mapping cloverField="status" trim="true" xpath="status"/>
+  <Mapping cloverField="size" trim="true" xpath="size"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_NS0_TRACK_ORDER_RESPONSE_TRACK_ORDER_RESPONSE:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="3474eedd-8f47-407a-852c-f377bb7f51d9" outPort="Port 0 (out)" toNode="JSON_WRITER0:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="b7a015a6-f440-46c5-8d54-4ceeabec53c0" outPort="Port 0 (out)" toNode="FOREACH_NS0_TRACK_ORDER_RESPONSE_TRACK_ORDER_RESPONSE:0"/>
+</Phase>
+</Graph>

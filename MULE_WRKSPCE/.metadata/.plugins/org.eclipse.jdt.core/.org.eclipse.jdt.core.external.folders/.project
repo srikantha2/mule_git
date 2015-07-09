@@ -12,12 +12,12 @@
 		<link>
 			<name>.link2</name>
 			<type>2</type>
-			<location>D:/AnypointStudio-for-win-32bit-4.1.0-201410161901/AnypointStudio/plugins/org.mule.tooling.server.3.5.2.ee_4.1.0.201410311747/mule/lib/mule/per-app</location>
+			<location>D:/AnypointStudio/plugins/org.mule.tooling.server.3.5.2.ee_4.1.0.201410311747/mule/lib/mule/per-app</location>
 		</link>
 		<link>
 			<name>.link3</name>
 			<type>2</type>
-			<location>D:/AnypointStudio-for-win-32bit-4.1.0-201410161901/AnypointStudio/plugins/org.mule.tooling.server.3.5.2.ee_4.1.0.201410311747/mule/data-mapper</location>
+			<location>D:/AnypointStudio/plugins/org.mule.tooling.server.3.5.2.ee_4.1.0.201410311747/mule/data-mapper</location>
 		</link>
 	</linkedResources>
 </projectDescription>

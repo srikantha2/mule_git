@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+      xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http
+http://www.mulesoft.org/schema/mule/http/3.3/mule-http.xsd
+http://www.mulesoft.org/schema/mule/xml
+http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/jms
+http://www.mulesoft.org/schema/mule/jms/3.3/mule-jms.xsd
+ http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.mulesoft.org/schema/mule/core
+http://www.mulesoft.org/schema/mule/core/3.3/mule.xsd">
+
+
+    <context:property-placeholder location="/mule.properties"/>
+
+    <jms:activemq-connector name="jmsConnector"
+                            specification="1.1"
+                            brokerURL="vm://localhost"/>
+
+ <!--<start id="ch05_validateAndDispatchCoolingAlerts_lis"/>-->
+    <flow name="validateAndDispatchOrders">
+        <http:inbound-endpoint exchange-pattern="one-way" 
+            host="${http.host}" port="${http.port}"
+            path="orders"/>
+        <mulexml:schema-validation-filter 
+            schemaLocations="orders.xsd"
+            returnResult="true"/>
+        <jms:outbound-endpoint topic="orders.submitted"
+            connector-ref="jmsConnector"/>
+    </flow>
+    <!--<end id="ch05_validateAndDispatchCoolingAlerts_lis"/>-->
+
+
+</mule>

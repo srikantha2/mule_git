@@ -1,5 +1,0 @@
-#Sat Dec 27 00:22:21 EST 2014
-redeployment.enabled=true
-encoding=UTF-8
-domain=default
-config.resources=db1example1.xml

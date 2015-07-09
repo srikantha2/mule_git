@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syncparticipants>
+<participant displayName="Git (connect-with-...rvice-consumer)" id="org.eclipse.egit.ui.modelCompareParticipant" secondary_id="1436406135851">
+<data forceFetch="false" root="false">
+<org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS org.eclipse.team.ui.MODEL_PARTICIPANT_DESCRIPTION="connect-with-...rvice-consumer" startupAction="none">
+<org.eclipse.team.ui.MODEL_PARTICIPANT_REFRESH_SCHEDULE org.eclipse.team.ui.CTX_REFRESHSCHEDULE_ENABLED="false" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_INTERVAL="3600" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_RUNONCE="false"/>
+<org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS modelProviderId="org.eclipse.core.resources.modelProvider">
+<mappings>
+<resources resourcePath="/connect-with-salesforce" resourceType="4"/>
+<resources resourcePath="/salesforce-to-database" resourceType="4"/>
+<resources resourcePath="/javaproject1" resourceType="4"/>
+<resources resourcePath="/fileproject1" resourceType="4"/>
+<resources resourcePath="/sqldbproject" resourceType="4"/>
+<resources resourcePath="/dbexample21" resourceType="4"/>
+<resources resourcePath="/restproject5" resourceType="4"/>
+<resources resourcePath="/vmproject1" resourceType="4"/>
+<resources resourcePath="/hello-world" resourceType="4"/>
+<resources resourcePath="/dbexample4" resourceType="4"/>
+<resources resourcePath="/jmsproject1" resourceType="4"/>
+<resources resourcePath="/restproject4" resourceType="4"/>
+<resources resourcePath="/dbexample3" resourceType="4"/>
+<resources resourcePath="/web-service-consumer" resourceType="4"/>
+<resources resourcePath="/restproject3" resourceType="4"/>
+<resources resourcePath="/soapproject1" resourceType="4"/>
+<resources resourcePath="/restproject2" resourceType="4"/>
+<resources resourcePath="/soapproject2" resourceType="4"/>
+<resources resourcePath="/javaproject4" resourceType="4"/>
+<resources resourcePath="/db1example1" resourceType="4"/>
+<resources resourcePath="/restproject1" resourceType="4"/>
+<resources resourcePath="/soapproject3" resourceType="4"/>
+<resources resourcePath="/javaproject3" resourceType="4"/>
+<resources resourcePath="/http-request-response-with-logger-echo_testcase1" resourceType="4"/>
+<resources resourcePath="/soapproject4" resourceType="4"/>
+<resources resourcePath="/javaproject2" resourceType="4"/>
+</mappings>
+</org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS>
+</org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS>
+<gitSynchronizeData container="C:/Users/Prakash/Documents/GitHub/Bakki/mule_git/MULE_WRKSPCE/http-request-response-with-logger-echo_testcase1" dstRev="refs/remotes/origin/master" inludeLocal="true" srcRev="HEAD"/>
+<gitSynchronizeData container="C:/Users/Prakash/Documents/GitHub/Bakki/mule_git/connect-with-salesforce" dstRev="refs/remotes/origin/master" inludeLocal="true" srcRev="HEAD"/>
+</data>
+</participant>
+</syncparticipants>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http
+http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/jms
+http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/core
+http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+">
+
+
+    <jms:activemq-connector name="jmsConnector"
+                            specification="1.1"
+                            brokerURL="vm://localhost"/>
+
+
+    <!--<start id="ch05_routeToDLQ_lis"/>-->
+    <flow name="routeToDLQ">
+        <jms:inbound-endpoint topic="orders"
+                              connector-ref="jmsConnector"/>
+        <message-filter onUnaccepted="sendToDLQ">
+            <and-filter><!--<co id="ch05_routeToDLQ-1-cod"/>-->
+                <payload-type-filter
+                        expectedType="java.lang.String"/>
+                <or-filter>
+                    <expression-filter
+expression="xpath('/order/priority').text == 'HIGH'"/>
+                    <message-property-filter
+                            pattern="PD_PRIORITY='HIGH'"
+                            caseSensitive="true"
+                            scope="inbound"/>
+                </or-filter>
+            </and-filter>
+        </message-filter>
+        <component
+class="com.prancingdonkey.service.HighPriorityOrderProcessingService"/>
+    </flow>
+
+    <sub-flow name="sendToDLQ">
+        <jms:outbound-endpoint name="DLQ" queue="DLQ"/>
+    </sub-flow>
+
+
+    <!--<end id="ch05_routeToDLQ_lis"/>-->
+
+
+</mule>

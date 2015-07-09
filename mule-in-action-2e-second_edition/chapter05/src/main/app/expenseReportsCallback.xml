@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:file="http://www.mulesoft.org/schema/mule/file"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http 
+http://www.mulesoft.org/schema/mule/http/3.3/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file 
+http://www.mulesoft.org/schema/mule/file/3.3/mule-file.xsd
+http://www.mulesoft.org/schema/mule/core 
+http://www.mulesoft.org/schema/mule/core/3.3/mule.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context-3.0.xsd
+">
+
+
+    <notifications dynamic="true">
+        <notification event="ENDPOINT-MESSAGE"/>
+    </notifications>
+
+    <context:property-placeholder location="/mule.properties"/>
+
+ <!--<start id="ch05_expenseReportCallback_lis"/>-->
+    <flow name="expenseReportCallback">
+
+        <http:inbound-endpoint
+                exchange-pattern="request-response"
+                host="localhost"
+                port="8081"
+                path="expenses"/>
+
+        <choice>
+            <when 
+            expression="message.inboundProperties['Content-Type']
+      == 'application/vnd.ms-excel'">
+                <!--<co id="ch05_expenseReportCallback-1-cor"/>-->
+                    <file:outbound-endpoint 
+        path="./data/expenses/status"
+outputPattern=
+"#[java.util.UUID.randomUUID()]-&#xD;
+#[java.lang.System.currentTimeMillis()].xls"
+               />
+            </when>
+            <otherwise>
+                    <file:outbound-endpoint 
+path="./data/expenses/rejected"
+outputPattern=
+"#[java.util.UUID.randomUUID()]-&#xD;
+#[java.lang.System.currentTimeMillis()].xls"
+                />
+            </otherwise>
+        </choice>
+    </flow>
+    <!--<end id="ch05_expenseReportCallback_lis"/>-->
+
+</mule>

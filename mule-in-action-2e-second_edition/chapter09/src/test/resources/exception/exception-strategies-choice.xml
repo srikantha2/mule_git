@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.2/mule.xsd
+        http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+
+<!--<start id="lis_09_exception-strategies-choice"/>-->
+<flow name="ShippingCostCalculatorFlow" 
+  processingStrategy="synchronous">
+  <vm:inbound-endpoint path="calculateShippingCost.in" 
+    exchange-pattern="request-response">
+    <vm:transaction action="ALWAYS_BEGIN"/>
+  </vm:inbound-endpoint>
+    
+  <component>
+    <singleton-object 
+	  class="com.prancingdonkey.component.ShippingCostCalculator" />
+  </component>
+
+  <choice-exception-strategy><!--<co id="lis_09_exception-strategies-choice_1"/>-->
+
+    <rollback-exception-strategy 
+      when="exception.causedBy(java.lang.IllegalStateException)"
+      maxRedeliveryAttempts="3"><!--<co id="lis_09_exception-strategies-choice_2"/>-->
+      <logger message="Retrying shipping cost calc." level="WARN" />
+      <on-redelivery-attempts-exceeded>
+        <logger message="Too many retries shipping cost calc." 
+          level="WARN" />
+        <set-payload value="Error: #[exception.summaryMessage]"/>
+      </on-redelivery-attempts-exceeded>
+    </rollback-exception-strategy>
+
+    <catch-exception-strategy>
+      <logger message=
+        "ShippingCost error : #[exception.summaryMessage]"
+        level="ERROR" />
+      <set-payload value="Error: #[exception.summaryMessage]"/>
+    </catch-exception-strategy>
+    
+  </choice-exception-strategy>
+
+</flow>
+<!--<end id="lis_09_exception-strategies-choice"/>-->
+
+</mule>

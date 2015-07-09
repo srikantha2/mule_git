@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      version="EE-3.3.0" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/vm
+http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http
+http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/jms
+http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/core
+http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+">
+
+    <notifications dynamic="true">
+        <notification event="COMPONENT-MESSAGE"/>
+    </notifications>
+
+    <jms:activemq-connector name="jmsConnector"
+                            specification="1.1"
+                            brokerURL="vm://localhost"/>
+
+
+    <!--<start id="ch05_foreach_lis"/>-->
+    <flow name="Chapter05ExamplesFlow1">
+        <jms:inbound-endpoint queue="orders.audit"
+                              connector-ref="jmsConnector"/>
+        <foreach collection="xpath('//lineItem')"
+                 counterVariableName="lineItem"><!--<co id="ch05_foreach-1-cod"/>-->
+            <choice>
+                <when
+expression="xpath('priority/text()').textContent == 'HIGH'">
+                    <object-to-string-transformer/>
+                    <component
+ class="com.prancingdonkey.service.HighPriorityOrderProcessingService"/>
+                </when>
+                <otherwise>
+                    <object-to-string-transformer/>
+                    <component
+  class="com.prancingdonkey.service.LowPriorityOrderProcessingService"/>
+                </otherwise>
+            </choice>
+        </foreach>
+    </flow>
+    <!--<end id="ch05_foreach_lis"/>-->
+
+</mule>

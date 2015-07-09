@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="Prakash" created="Tue Jul 07 20:31:23 EDT 2015" description="List&lt;Map&gt; To CSV" guiVersion="3.4.4.P" id="1436315983062" licenseCode="Unlicensed" licenseType="Unknown" modified="Tue Jul 07 20:31:23 EDT 2015" modifiedBy="Prakash" name="List_Map__To_CSV" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __referenceCounter="1" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _type="Output" id="ff81f248-e80e-4b54-8dfe-466679e5410d">
+<Record fieldDelimiter="," name="contacts" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field containerType="SINGLE" label="FirstName" name="FirstName" size="10" type="string"/>
+<Field containerType="SINGLE" label="LastName" name="LastName" size="10" type="string"/>
+<Field containerType="SINGLE" label="roleType" name="roleType" size="10" type="string"/>
+<Field containerType="SINGLE" eofAsDelimiter="true" label="Email" name="Email" size="10" type="string"/>
+<Field __artificialType="_id" name="__id" type="long"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/Map" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Input" id="58ea7b81-5c01-4d4c-bd0b-aec3c8193592">
+<Record fieldDelimiter="," name="Map" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __implementationClass="java.lang.String" __index="2" __sourcePath="{}/Map/emailId" containerType="SINGLE" label="emailId" name="emailId" type="string"/>
+<Field __implementationClass="java.lang.String" __index="1" __sourcePath="{}/Map/familyroletype" containerType="SINGLE" label="familyroletype" name="familyroletype" type="string"/>
+<Field __implementationClass="java.lang.String" __index="0" __sourcePath="{}/Map/firstname" containerType="SINGLE" label="firstname" name="firstname" type="string"/>
+<Field __implementationClass="java.lang.String" __index="3" __sourcePath="{}/Map/lastname" containerType="SINGLE" label="lastname" name="lastname" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" fileURL="dict:inputPayload" guiName="Map&lt;k,v&gt; READER" guiX="20" guiY="20" id="BEAN_READER0" type="BEAN_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath=".">
+  <Mapping cloverField="emailId" trim="true" xpath="emailId"/>
+  <Mapping cloverField="familyroletype" trim="true" xpath="familyroletype"/>
+  <Mapping cloverField="firstname" trim="true" xpath="firstname"/>
+  <Mapping cloverField="lastname" trim="true" xpath="lastname"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" excludeFields="__id" fileURL="dict:outputPayload" guiName="CSV WRITER" guiX="900" guiY="20" id="DATA_WRITER0" quotedStrings="true" type="DATA_WRITER">
+<attr name="_data_format"><![CDATA[CSV]]></attr>
+<attr name="__dataSourceDefinition"><![CDATA[D:/muleFiles/contacts.csv]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'Map' -&gt; 'contacts'" guiX="460" guiY="20" id="FOREACH_MAP_CONTACTS" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = str2long(input.__id);
+//END -> DO NOT REMOVE
+output.FirstName = input.firstname;
+output.LastName = input.lastname;
+output.roleType = input.familyroletype;
+output.Email = input.emailId;]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="58ea7b81-5c01-4d4c-bd0b-aec3c8193592" outPort="Port 0 (out)" toNode="FOREACH_MAP_CONTACTS:0"/>
+<Edge debugMode="true" fromNode="FOREACH_MAP_CONTACTS:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="ff81f248-e80e-4b54-8dfe-466679e5410d" outPort="Port 0 (out)" toNode="DATA_WRITER0:0"/>
+</Phase>
+</Graph>

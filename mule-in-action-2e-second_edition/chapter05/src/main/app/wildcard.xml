@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+      xmlns:imap="http://www.mulesoft.org/schema/mule/imap"
+      xmlns:email="http://www.mulesoft.org/schema/mule/email"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/vm 
+http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http 
+http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/jms 
+http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd 
+http://www.mulesoft.org/schema/mule/imap 
+http://www.mulesoft.org/schema/mule/imap/current/mule-imap.xsd
+http://www.mulesoft.org/schema/mule/email 
+http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/core 
+http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+ http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+">
+
+
+    <context:property-placeholder location="/mule.properties"/>
+
+
+    <jms:activemq-connector name="Active_MQ"
+                            specification="1.1"
+                            brokerURL="vm://localhost"/>
+
+ <!--<start id="ch05_wildcard_lis"/>-->
+ <flow name="dispatchCoolingAlerts">
+
+        <imap:inbound-endpoint host="${imap.host}"
+            port="${imap.port}"
+            user="cooling" 
+            password="password" 
+            responseTimeout="10000" />
+        <email:email-to-string-transformer/>
+        <wildcard-filter pattern="*SEVERE*"/>
+        <jms:outbound-endpoint 
+            topic="cooling.alerts" 
+            connector-ref="Active_MQ" 
+           />
+    </flow>
+   <!--<end id="ch05_wildcard_lis"/>-->
+
+</mule>
