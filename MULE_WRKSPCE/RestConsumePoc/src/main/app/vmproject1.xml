@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+    <data-mapper:config name="Pojo_To_Pojo" transformationGraphPath="pojo_to_pojo.grf" doc:name="Pojo_To_Pojo"/>
+    <data-mapper:config name="JSON_To_Pojo" transformationGraphPath="json_to_pojo.grf" doc:name="JSON_To_Pojo"/>
+    <http:endpoint exchange-pattern="request-response" host="localhost" port="8080" path="SpringRestExample/rest/emp/dummy" method="GET" name="HTTP" doc:name="HTTP"/>
+    <flow name="vmproject1Flow1" doc:name="vmproject1Flow1">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8082" path="vm" doc:name="HTTP"/>
+        <vm:outbound-endpoint exchange-pattern="request-response" path="vm-example" doc:name="VM"/>
+    </flow>
+    <flow name="vmproject1Flow2" doc:name="vmproject1Flow2">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="vm-example" doc:name="VM"/>
+        <logger message="payload is: #[payload]" level="INFO" doc:name="Logger" />
+		<http:outbound-endpoint exchange-pattern="request-response"
+			method="GET"  doc:name="HTTP" ref="HTTP">
+			<set-property propertyName="Accept" value="application/json" />
+		</http:outbound-endpoint>
+        <data-mapper:transform config-ref="JSON_To_Pojo" doc:name="JSON To Pojo"/>
+        <component class="com.sbakka.Impl.TestRestObjectImpl" doc:name="Java"/>
+        <set-payload value="#[payload] " doc:name="Set Payload"/>
+        <http:response-builder status="200" contentType="text/html" doc:name="HTTP Response Builder">
+            <http:expires value="Thu, 09 Jul 2015 11:21:37 GMT"/>
+        </http:response-builder>
+
+		
+    </flow>
+</mule>

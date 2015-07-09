@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="sbakka" created="Wed Jul 08 11:03:44 EDT 2015" description="XML To JSON" guiVersion="3.4.4.P" id="1436380601140" licenseCode="Unlicensed" licenseType="Unknown" modified="Wed Jul 08 11:03:44 EDT 2015" modifiedBy="sbakka" name="XML_To_JSON" preview-file="C:/Users/sbakka/Desktop/vmproject1/CustomerCreate.xml" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __filteredMetadata="false" __index="0" __referenceCounter="1" __schemaType="CustomerType" __sourcePath="{}/Customer" _dataStructure="OBJECT" _id="__id" _type="Input" id="b083a259-a271-4a97-a761-fd4617c8e3c4">
+<Record fieldDelimiter="," name="Customer" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __schemaType="CustomerType" __sourcePath="{}/Customer/id" containerType="SINGLE" label="id" name="id" type="integer"/>
+<Field __index="1" __schemaType="CustomerType" __sourcePath="{}/Customer/name" containerType="SINGLE" label="name" name="name" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="1c5fdff8-c10c-4821-a0a2-89ab80f45caf">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/id" containerType="SINGLE" label="id" name="id" type="integer"/>
+<Field __index="1" __sourcePath="{}/object/name" containerType="SINGLE" label="name" name="name" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" guiName="Foreach 'Customer' -&gt; 'object'" guiX="460" guiY="20" id="FOREACH_CUSTOMER_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.id = input.id;
+output.name = input.name;
+]]></attr>
+</Node>
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="JSON WRITER" guiX="900" guiY="20" id="JSON_WRITER0" type="JSON_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <id>$0.id</id>
+  <name>$0.name</name>
+</object>]]></attr>
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:/Users/sbakka/Desktop/vmproject1/sample.json]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="xmlSchemaURL"><![CDATA[./src/test/resources/Customer.xsd]]></attr>
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath="/Customer">
+  <Mapping cloverField="id" trim="true" xpath="id"/>
+  <Mapping cloverField="name" trim="true" xpath="name"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[Customer]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_CUSTOMER_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="1c5fdff8-c10c-4821-a0a2-89ab80f45caf" outPort="Port 0 (out)" toNode="JSON_WRITER0:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="b083a259-a271-4a97-a761-fd4617c8e3c4" outPort="Port 0 (out)" toNode="FOREACH_CUSTOMER_OBJECT:0"/>
+</Phase>
+</Graph>

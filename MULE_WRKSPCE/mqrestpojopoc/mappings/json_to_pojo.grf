@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="sbakka" created="Wed Jul 08 11:03:44 EDT 2015" description="JSON To Pojo" guiVersion="3.4.4.P" id="1436379861331" licenseCode="Unlicensed" licenseType="Unknown" modified="Wed Jul 08 11:03:44 EDT 2015" modifiedBy="sbakka" name="JSON_To_Pojo" preview-file="C:/Users/sbakka/Desktop/vmproject1/sample.json" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/list" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="68636ad3-6688-475a-8de8-26ca564db782">
+<Record fieldDelimiter="," name="list" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/list/id" containerType="SINGLE" label="id" name="id" type="integer"/>
+<Field __index="1" __sourcePath="{}/list/name" containerType="SINGLE" label="name" name="name" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="3b4c66b0-114f-46b8-902a-80c001271175">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/id" containerType="SINGLE" label="id" name="id" type="integer"/>
+<Field __index="1" __sourcePath="{}/object/name" containerType="SINGLE" label="name" name="name" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:collection clover:name="list" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
+  <item clover:inPort="0">
+    <id>$0.id</id>
+    <name>$0.name</name>
+  </item>
+</clover:collection>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <schema-collection>
+    <typed-object-ref type-ref="com.uim.poc.Customer"/>
+  </schema-collection>
+  <typed-object type="int"/>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="com.uim.poc.Customer">
+    <typed-object-ref name="id" type-ref="int"/>
+    <typed-object-ref name="name" type-ref="java.lang.String"/>
+  </typed-object>
+</schema-object>
+]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'object' -&gt; 'list'" guiX="460" guiY="20" id="FOREACH_OBJECT_LIST" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.id = input.id;
+output.name = input.name;
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context outPort="0" sequenceField="__id" xpath="object">
+    <Mapping cloverField="id" trim="true" xpath="id"/>
+    <Mapping cloverField="name" trim="true" xpath="name"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:/Users/sbakka/Desktop/vmproject1/sample.json]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_OBJECT_LIST:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="68636ad3-6688-475a-8de8-26ca564db782" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="3b4c66b0-114f-46b8-902a-80c001271175" outPort="Port 0 (out)" toNode="FOREACH_OBJECT_LIST:0"/>
+</Phase>
+</Graph>

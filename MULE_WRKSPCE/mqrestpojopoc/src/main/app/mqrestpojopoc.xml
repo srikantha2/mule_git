@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <jms:activemq-connector name="Active_MQ" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/>
+    <http:endpoint exchange-pattern="request-response" host="localhost" port="8080" path="SpringRestExample/rest/emp/create" method="POST" name="HTTP3" doc:name="HTTP"/>
+    <data-mapper:config name="JSON_To_Pojo" transformationGraphPath="json_to_pojo.grf" doc:name="JSON_To_Pojo"/>
+    <data-mapper:config name="XML_To_JSON" transformationGraphPath="xml_to_json.grf" doc:name="XML_To_JSON"/>
+     <db:mysql-config name="MySQL_Configuration" host="localhost" port="3306" user="root" password="admin" database="temp" doc:name="MySQL Configuration"/>
+    
+    <flow name="jmsproject1Flow1" doc:name="jmsproject1Flow1">
+        <jms:inbound-endpoint queue="MulePOCQueue" connector-ref="Active_MQ" doc:name="JMS"/>
+        <logger message="payload(Logger-1): #[payload]" level="INFO" doc:name="Logger1"/>
+        <data-mapper:transform config-ref="XML_To_JSON" doc:name="XML To JSON"/>
+        <logger message="payload (Logger2): #[payload]" level="INFO" doc:name="Logger2"/>
+        <http:outbound-endpoint exchange-pattern="request-response" method="POST" ref="HTTP3" doc:name="HTTP3"/>
+        <data-mapper:transform config-ref="JSON_To_Pojo" doc:name="JSON To Pojo"/>
+        <component class="com.bakka.poc.TestRestObjectImpl" doc:name="Java"/>
+        <logger message="Payload (logger3): #[payload] --#[payload[0].id]:: #[payload[0].name]" level="INFO" doc:name="Logger"/>
+        <db:insert config-ref="MySQL_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[INSERT INTO temp.customer  (id, name) VALUES (#[payload[0].id],#[payload[0].name])]]></db:parameterized-query>
+        </db:insert>
+    </flow>
+</mule>
