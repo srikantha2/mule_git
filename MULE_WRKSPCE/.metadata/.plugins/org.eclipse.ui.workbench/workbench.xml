@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="30" version="2.0">
+<workbench progressCount="29" version="2.0">
 <workbenchAdvisor/>
-<window height="728" maximized="true" width="1024" x="75" y="0">
+<window height="728" maximized="true" width="640" x="0" y="0">
 <fastViewData fastViewLocation="1024">
 <orientation position="512" view="org.eclipse.ui.views.ContentOutline"/>
 </fastViewData>
@@ -89,6 +89,9 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
+<expanded>
+<category IMemento.internal.id="Warnings (10 items)"/>
+</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="173" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="255" org.eclipse.ui.ide.resourceField="215" org.eclipse.ui.ide.severityAndDescriptionField="556"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -517,33 +520,23 @@
 <view id="org.eclipse.egit.ui.StagingView"/>
 <view id="org.eclipse.egit.ui.ReflogView"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@1fecfaea">
-<folder activePageID="org.eclipse.egit.ui.RepositoriesView" appearance="2" expanded="2">
-<page content="org.eclipse.egit.ui.RepositoriesView" label="Git Repositories"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.ui.internal.ViewStack@1fecfaea">&#x0A;<folder activePageID="org.eclipse.egit.ui.RepositoriesView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.egit.ui.RepositoriesView" label="Git Repositories"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="954" ratioRight="318" relationship="2" relative="org.eclipse.ui.internal.ViewStack@1fecfaea">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="954" ratioRight="318" relationship="2" relative="org.eclipse.ui.internal.ViewStack@1fecfaea">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.5" ratioLeft="636" ratioRight="636" relationship="2" relative="org.eclipse.ui.internal.ViewStack@1fecfaea"/>
-<info folder="true" part="bottom" ratio="0.49919742" ratioLeft="311" ratioRight="312" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.PropertySheet" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
+<info folder="true" part="bottom" ratio="0.49919742" ratioLeft="311" ratioRight="312" relationship="4" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.PropertySheet" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
 <page content="org.eclipse.team.ui.GenericHistoryView" label="History"/>
 <page content="org.eclipse.team.sync.views.SynchronizeView" label="Synchronize"/>
 <page content="org.eclipse.egit.ui.StagingView" label="Git Staging"/>
 <page content="org.eclipse.egit.ui.ReflogView" label="Git Reflog"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
@@ -587,32 +580,22 @@
 <view id="org.eclipse.ui.views.ProblemView"/>
 <view id="org.eclipse.ui.views.ProgressView"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="top">
-<folder activePageID="org.eclipse.team.sync.views.SynchronizeView" appearance="2" expanded="2">
-<page content="org.eclipse.team.sync.views.SynchronizeView" label="Synchronize"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="top">&#x0A;<folder activePageID="org.eclipse.team.sync.views.SynchronizeView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.team.sync.views.SynchronizeView" label="Synchronize"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="954" ratioRight="318" relationship="2" relative="top">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="954" ratioRight="318" relationship="2" relative="top">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.44968554" ratioLeft="572" ratioRight="700" relationship="2" relative="top"/>
-<info folder="true" part="top2" ratio="0.79935795" ratioLeft="498" ratioRight="125" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ProgressView" appearance="2" expanded="2">
-<page content="org.eclipse.team.ui.GenericHistoryView" label="History"/>
+<info folder="true" part="top2" ratio="0.79935795" ratioLeft="498" ratioRight="125" relationship="4" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ProgressView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.team.ui.GenericHistoryView" label="History"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.views.ProgressView" label="Progress"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
