@@ -15,3 +15,6 @@ QueueName:MulePOCQueue
 Output : 
 
 SELECT * FROM temp.customer;
+
+
+http://localhost:8161/admin/queues.jsp
