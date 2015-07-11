@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="Prakash" created="Sat Jul 11 17:39:24 EDT 2015" description="JSON To Pojo" guiVersion="3.4.4.P" id="1436653294620" licenseCode="Unlicensed" licenseType="Unknown" modified="Sat Jul 11 17:39:24 EDT 2015" modifiedBy="Prakash" name="JSON_To_Pojo" preview-file="C:/Users/Prakash/Downloads/arc-response-2015 Jul 11 18-18-02.json" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/list" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="7ab780f3-c062-4b13-84ce-6136f6397528">
+<Record fieldDelimiter="," name="list" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/list/id" containerType="SINGLE" label="id" name="id" type="integer"/>
+<Field __index="1" __sourcePath="{}/list/name" containerType="SINGLE" label="name" name="name" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="7bd5a70d-baa8-4d81-b1de-59d9e82c445f">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/sid" containerType="SINGLE" label="sid" name="sid" type="string"/>
+<Field __index="1" __sourcePath="{}/object/_x005flinks/self" containerType="SINGLE" label="self" name="self" type="string"/>
+<Field __index="2" __sourcePath="{}/object/_x005flinks/keywords" containerType="SINGLE" label="keywords" name="keywords" type="string"/>
+<Field __index="3" __sourcePath="{}/object/_x005flinks/command_x005ftypes" containerType="SINGLE" label="command_types" name="command_types" type="string"/>
+<Field __index="4" __sourcePath="{}/object/_x005flinks/inbound_x005fsms_x005fmessages" containerType="SINGLE" label="inbound_sms_messages" name="inbound_sms_messages" type="string"/>
+<Field __index="5" __sourcePath="{}/object/_x005flinks/sms_x005fmessages" containerType="SINGLE" label="sms_messages" name="sms_messages" type="string"/>
+<Field __index="6" __sourcePath="{}/object/_x005flinks/email_x005fmessages" containerType="SINGLE" label="email_messages" name="email_messages" type="string"/>
+<Field __index="7" __sourcePath="{}/object/_x005flinks/email_x005ftemplates" containerType="SINGLE" label="email_templates" name="email_templates" type="string"/>
+<Field __index="8" __sourcePath="{}/object/_x005flinks/from_x005faddresses" containerType="SINGLE" label="from_addresses" name="from_addresses" type="string"/>
+<Field __index="9" __sourcePath="{}/object/_x005flinks/voice_x005fmessages" containerType="SINGLE" label="voice_messages" name="voice_messages" type="string"/>
+<Field __index="10" __sourcePath="{}/object/_x005flinks/incoming_x005fvoice_x005fmessages" containerType="SINGLE" label="incoming_voice_messages" name="incoming_voice_messages" type="string"/>
+<Field __index="11" __sourcePath="{}/object/_x005flinks/webhooks" containerType="SINGLE" label="webhooks" name="webhooks" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:collection clover:name="list" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
+  <item clover:inPort="0">
+    <id>$0.id</id>
+    <name>$0.name</name>
+  </item>
+</clover:collection>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <schema-collection>
+    <typed-object-ref type-ref="com.sbakka.objects.Customer"/>
+  </schema-collection>
+  <typed-object type="com.sbakka.objects.Customer">
+    <typed-object-ref name="id" type-ref="int"/>
+    <typed-object-ref name="name" type-ref="java.lang.String"/>
+  </typed-object>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="int"/>
+</schema-object>
+]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'object' -&gt; 'list'" guiX="460" guiY="20" id="FOREACH_OBJECT_LIST" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.name = input.sid;
+output.id = 222;]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context outPort="0" sequenceField="__id" xpath="object">
+    <Mapping cloverField="sid" trim="true" xpath="sid"/>
+    <Mapping cloverField="self" trim="true" xpath="_x005flinks/self"/>
+    <Mapping cloverField="keywords" trim="true" xpath="_x005flinks/keywords"/>
+    <Mapping cloverField="command_types" trim="true" xpath="_x005flinks/command_x005ftypes"/>
+    <Mapping cloverField="inbound_sms_messages" trim="true" xpath="_x005flinks/inbound_x005fsms_x005fmessages"/>
+    <Mapping cloverField="sms_messages" trim="true" xpath="_x005flinks/sms_x005fmessages"/>
+    <Mapping cloverField="email_messages" trim="true" xpath="_x005flinks/email_x005fmessages"/>
+    <Mapping cloverField="email_templates" trim="true" xpath="_x005flinks/email_x005ftemplates"/>
+    <Mapping cloverField="from_addresses" trim="true" xpath="_x005flinks/from_x005faddresses"/>
+    <Mapping cloverField="voice_messages" trim="true" xpath="_x005flinks/voice_x005fmessages"/>
+    <Mapping cloverField="incoming_voice_messages" trim="true" xpath="_x005flinks/incoming_x005fvoice_x005fmessages"/>
+    <Mapping cloverField="webhooks" trim="true" xpath="_x005flinks/webhooks"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:/Users/Prakash/Downloads/arc-response-2015 Jul 11 18-18-02.json]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_OBJECT_LIST:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="7ab780f3-c062-4b13-84ce-6136f6397528" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="7bd5a70d-baa8-4d81-b1de-59d9e82c445f" outPort="Port 0 (out)" toNode="FOREACH_OBJECT_LIST:0"/>
+</Phase>
+</Graph>
