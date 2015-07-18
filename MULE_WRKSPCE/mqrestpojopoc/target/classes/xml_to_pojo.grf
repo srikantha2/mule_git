@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="sbakka" created="Tue Jul 14 15:45:53 EDT 2015" description="XML To Pojo" guiVersion="3.4.4.P" id="1436971256062" licenseCode="Unlicensed" licenseType="Unknown" modified="Tue Jul 14 15:45:53 EDT 2015" modifiedBy="sbakka" name="XML_To_Pojo" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __filteredMetadata="false" __index="0" __referenceCounter="1" __schemaType="emailType" __sourcePath="{}/email" _dataStructure="OBJECT" _id="__id" _type="Input" id="1a828f75-675f-4d57-93c6-f7d22714c633">
+<Record fieldDelimiter="," name="email" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __schemaType="emailType" __sourcePath="{}/email/body" containerType="SINGLE" label="body" name="body" type="string"/>
+<Field __index="1" __schemaType="emailType" __sourcePath="{}/email/from_name" containerType="SINGLE" label="from_name" name="from_name" type="string"/>
+<Field __index="2" __schemaType="emailType" __sourcePath="{}/email/errors_to" containerType="SINGLE" label="errors_to" name="errors_to" type="string"/>
+<Field __index="3" __schemaType="emailType" __sourcePath="{}/email/from_email" containerType="SINGLE" label="from_email" name="from_email" type="string"/>
+<Field __index="4" __schemaType="emailType" __sourcePath="{}/email/subject" containerType="SINGLE" label="subject" name="subject" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="4" __referenceCounter="0" __sourcePath="{}/object/macros" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="52fcb932-92e4-46cb-b967-db13ab2ffcf2" _parent_id="__parent_id" _type="Output" id="d20fa7ec-a4ed-434d-87a9-b6e4e91e63c6">
+<Record fieldDelimiter="," name="macros" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="4" __sourcePath="{}/object/macros/key" containerType="SINGLE" label="key" name="key" type="string"/>
+<Field __index="5" __sourcePath="{}/object/macros/value" containerType="SINGLE" label="value" name="value" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="52fcb932-92e4-46cb-b967-db13ab2ffcf2">
+<Record fieldDelimiter="," name="MailReqForm" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/body" containerType="SINGLE" label="body" name="body" type="string"/>
+<Field __index="1" __sourcePath="{}/object/errors_to" containerType="SINGLE" label="errors_to" name="errors_to" type="string"/>
+<Field __index="2" __sourcePath="{}/object/from_email" containerType="SINGLE" label="from_email" name="from_email" type="string"/>
+<Field __index="3" __sourcePath="{}/object/from_name" containerType="SINGLE" label="from_name" name="from_name" type="string"/>
+<Field __index="7" __sourcePath="{}/object/subject" containerType="SINGLE" label="subject" name="subject" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="5" __referenceCounter="1" __schemaType="recipientType" __sourcePath="{}/email/recipients/recipient" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="1a828f75-675f-4d57-93c6-f7d22714c633" _parent_id="__parent_id" _type="Input" id="87cb6100-2ff0-4403-939e-d8559fd8f10b">
+<Record fieldDelimiter="," name="recipient" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="5" __schemaType="recipientType" __sourcePath="{}/email/recipients/recipient/email" containerType="SINGLE" label="email" name="email" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="6" __referenceCounter="1" __sourcePath="{}/object/recipients" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="52fcb932-92e4-46cb-b967-db13ab2ffcf2" _parent_id="__parent_id" _type="Output" id="fa88ebc3-eef2-4aa9-b981-a01ee86856d8">
+<Record fieldDelimiter="," name="recipients" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="6" __sourcePath="{}/object/recipients/email" containerType="SINGLE" label="email" name="email" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <body>$0.body</body>
+  <clover:element clover:name="errors_to">$0.errors_to</clover:element>
+  <clover:element clover:name="from_email">$0.from_email</clover:element>
+  <clover:element clover:name="from_name">$0.from_name</clover:element>
+  <clover:collection clover:name="recipients">
+    <item clover:inPort="1" clover:key="__parent_id" clover:parentKey="__id">
+      <email>$1.email</email>
+    </item>
+  </clover:collection>
+  <subject>$0.subject</subject>
+</object>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <typed-object-ref type-ref="com.uim.poc.MailReqForm"/>
+  <typed-object type="java.lang.Object"/>
+  <typed-object type="com.uim.poc.MailReqForm">
+    <typed-object-ref name="body" type-ref="java.lang.String"/>
+    <typed-object-ref name="errors_to" type-ref="java.lang.String"/>
+    <typed-object-ref name="from_email" type-ref="java.lang.String"/>
+    <typed-object-ref name="from_name" type-ref="java.lang.String"/>
+    <schema-map name="macros" type="java.util.Map">
+      <typed-object-ref type-ref="java.lang.Object"/>
+      <typed-object-ref type-ref="java.lang.Object"/>
+    </schema-map>
+    <schema-collection name="recipients" type="java.util.List">
+      <typed-object-ref type-ref="com.uim.poc.Recipient"/>
+    </schema-collection>
+    <typed-object-ref name="subject" type-ref="java.lang.String"/>
+  </typed-object>
+  <typed-object type="java.lang.String"/>
+  <typed-object type="com.uim.poc.Recipient">
+    <typed-object-ref name="email" type-ref="java.lang.String"/>
+  </typed-object>
+</schema-object>
+]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'email' -&gt; 'object'" guiX="460" guiY="20" id="FOREACH_EMAIL_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.body = input.body;
+output.from_name = input.from_name;
+output.errors_to = input.errors_to;
+output.from_email = input.from_email;
+output.subject = input.subject;
+]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'recipient' -&gt; 'recipients'" guiX="460" guiY="120" id="FOREACH_RECIPIENT_RECIPIENTS" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+output.__parent_id = input.__parent_id;
+//END -> DO NOT REMOVE
+output.email = input.email ;
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="xmlSchemaURL"><![CDATA[./src/test/resources/email.xsd]]></attr>
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath="/email">
+  <Mapping cloverField="body" trim="true" xpath="body"/>
+  <Mapping cloverField="from_name" trim="true" xpath="from_name"/>
+  <Mapping cloverField="errors_to" trim="true" xpath="errors_to"/>
+  <Mapping cloverField="from_email" trim="true" xpath="from_email"/>
+  <Mapping cloverField="subject" trim="true" xpath="subject"/>
+  <Context generatedKey="__parent_id" outPort="1" parentKey="__id" sequenceField="__id" xpath="recipients/recipient">
+    <Mapping cloverField="email" trim="true" xpath="email"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[email]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_EMAIL_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="52fcb932-92e4-46cb-b967-db13ab2ffcf2" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+<Edge debugMode="true" fromNode="FOREACH_RECIPIENT_RECIPIENTS:0" guiBendpoints="" id="Edge3" inPort="Port 1 (in)" metadata="fa88ebc3-eef2-4aa9-b981-a01ee86856d8" outPort="Port 0 (out)" toNode="BEAN_WRITER0:1"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="1a828f75-675f-4d57-93c6-f7d22714c633" outPort="Port 0 (out)" toNode="FOREACH_EMAIL_OBJECT:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:1" guiBendpoints="" id="Edge2" inPort="Port 0 (in)" metadata="87cb6100-2ff0-4403-939e-d8559fd8f10b" outPort="Port 1 (out)" toNode="FOREACH_RECIPIENT_RECIPIENTS:0"/>
+</Phase>
+</Graph>

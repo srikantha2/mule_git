@@ -4,13 +4,10 @@
 package com.bakka.poc;
 
 /**
- * @author sbakka
+ * @author bakka
  *
  */
 import java.io.Serializable;
-import java.util.Date;
-
-import org.codehaus.jackson.annotate.JsonAutoDetect;
 
 
 public class Customer implements Serializable{

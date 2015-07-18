@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="sbakka" created="Sat Jul 11 09:09:20 EDT 2015" description="JSON To Pojo" guiVersion="3.4.4.P" id="1436625171270" licenseCode="Unlicensed" licenseType="Unknown" modified="Sat Jul 11 09:09:20 EDT 2015" modifiedBy="sbakka" name="JSON_To_Pojo" preview-file="C:/Users/sbakka/Desktop/vmproject1/govdeli_resp.json" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/list" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="3611fc1b-ddcb-43f9-8d47-838789236047">
+<Record fieldDelimiter="," name="list" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/list/body" containerType="SINGLE" label="body" name="body" type="string"/>
+<Field __index="1" __sourcePath="{}/list/errorEmail" containerType="SINGLE" label="errorEmail" name="errorEmail" type="string"/>
+<Field __index="2" __sourcePath="{}/list/fromEmail" containerType="SINGLE" label="fromEmail" name="fromEmail" type="string"/>
+<Field __index="3" __sourcePath="{}/list/fromName" containerType="SINGLE" label="fromName" name="fromName" type="string"/>
+<Field __index="4" __sourcePath="{}/list/recipients" containerType="list" label="recipients" name="recipients" type="string"/>
+<Field __index="5" __sourcePath="{}/list/subject" containerType="SINGLE" label="subject" name="subject" type="string"/>
+<Field __index="6" __sourcePath="{}/list/txId" containerType="SINGLE" label="txId" name="txId" type="integer"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="78889337-99ea-45a5-9b2d-5687fc11e290">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/id" containerType="SINGLE" label="id" name="id" type="integer"/>
+<Field __index="1" __sourcePath="{}/object/subject" containerType="SINGLE" label="subject" name="subject" type="string"/>
+<Field __index="2" __sourcePath="{}/object/body" containerType="SINGLE" label="body" name="body" type="string"/>
+<Field __index="3" __sourcePath="{}/object/click_x005ftracking_x005fenabled" containerType="SINGLE" label="click_tracking_enabled" name="click_tracking_enabled" type="boolean"/>
+<Field __index="4" __sourcePath="{}/object/errors_x005fto" containerType="SINGLE" label="errors_to" name="errors_to" type="string"/>
+<Field __index="5" __sourcePath="{}/object/from_x005femail" containerType="SINGLE" label="from_email" name="from_email" type="string"/>
+<Field __index="6" __sourcePath="{}/object/from_x005fname" containerType="SINGLE" label="from_name" name="from_name" type="string"/>
+<Field __index="7" __sourcePath="{}/object/open_x005ftracking_x005fenabled" containerType="SINGLE" label="open_tracking_enabled" name="open_tracking_enabled" type="boolean"/>
+<Field __index="8" __sourcePath="{}/object/reply_x005fto" containerType="SINGLE" label="reply_to" name="reply_to" type="string"/>
+<Field __index="9" __sourcePath="{}/object/created_x005fat" containerType="SINGLE" label="created_at" name="created_at" type="string"/>
+<Field __index="10" __sourcePath="{}/object/status" containerType="SINGLE" label="status" name="status" type="string"/>
+<Field __index="11" __sourcePath="{}/object/_x005flinks/self" containerType="SINGLE" label="self" name="self" type="string"/>
+<Field __index="12" __sourcePath="{}/object/_x005flinks/recipients" containerType="SINGLE" label="recipients" name="recipients" type="string"/>
+<Field __index="13" __sourcePath="{}/object/_x005flinks/failed" containerType="SINGLE" label="failed" name="failed" type="string"/>
+<Field __index="14" __sourcePath="{}/object/_x005flinks/sent" containerType="SINGLE" label="sent" name="sent" type="string"/>
+<Field __index="15" __sourcePath="{}/object/_x005flinks/clicked" containerType="SINGLE" label="clicked" name="clicked" type="string"/>
+<Field __index="16" __sourcePath="{}/object/_x005flinks/opened" containerType="SINGLE" label="opened" name="opened" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<clover:collection clover:name="list" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
+  <item clover:inPort="0">
+    <body>$0.body</body>
+    <errorEmail>$0.errorEmail</errorEmail>
+    <fromEmail>$0.fromEmail</fromEmail>
+    <fromName>$0.fromName</fromName>
+    <clover:collection clover:name="recipients">$0.recipients</clover:collection>
+    <subject>$0.subject</subject>
+    <txId>$0.txId</txId>
+  </item>
+</clover:collection>]]></attr>
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <schema-collection>
+    <typed-object-ref type-ref="com.uim.poc.MailTemp1RespForm"/>
+  </schema-collection>
+  <typed-object type="com.uim.poc.MailTemp1RespForm">
+    <typed-object-ref name="body" type-ref="java.lang.String"/>
+    <typed-object-ref name="errorEmail" type-ref="java.lang.String"/>
+    <typed-object-ref name="fromEmail" type-ref="java.lang.String"/>
+    <typed-object-ref name="fromName" type-ref="java.lang.String"/>
+    <schema-collection name="recipients" type="java.util.List">
+      <typed-object-ref type-ref="java.lang.String"/>
+    </schema-collection>
+    <typed-object-ref name="subject" type-ref="java.lang.String"/>
+    <typed-object-ref name="txId" type-ref="int"/>
+  </typed-object>
+  <typed-object type="int"/>
+  <typed-object type="java.lang.String"/>
+</schema-object>
+]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'object' -&gt; 'list'" guiX="460" guiY="20" id="FOREACH_OBJECT_LIST" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.subject = input.subject;
+output.body = input.body;
+output.recipients = [input.recipients];
+output.txId = input.id;
+output.errorEmail = input.errors_to;
+output.fromEmail = input.from_email;
+output.fromName = input.from_name;]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context xpath="/root">
+  <Context outPort="0" sequenceField="__id" xpath="object">
+    <Mapping cloverField="id" trim="true" xpath="id"/>
+    <Mapping cloverField="subject" trim="true" xpath="subject"/>
+    <Mapping cloverField="body" trim="true" xpath="body"/>
+    <Mapping cloverField="click_tracking_enabled" trim="true" xpath="click_x005ftracking_x005fenabled"/>
+    <Mapping cloverField="errors_to" trim="true" xpath="errors_x005fto"/>
+    <Mapping cloverField="from_email" trim="true" xpath="from_x005femail"/>
+    <Mapping cloverField="from_name" trim="true" xpath="from_x005fname"/>
+    <Mapping cloverField="open_tracking_enabled" trim="true" xpath="open_x005ftracking_x005fenabled"/>
+    <Mapping cloverField="reply_to" trim="true" xpath="reply_x005fto"/>
+    <Mapping cloverField="created_at" trim="true" xpath="created_x005fat"/>
+    <Mapping cloverField="status" trim="true" xpath="status"/>
+    <Mapping cloverField="self" trim="true" xpath="_x005flinks/self"/>
+    <Mapping cloverField="recipients" trim="true" xpath="_x005flinks/recipients"/>
+    <Mapping cloverField="failed" trim="true" xpath="_x005flinks/failed"/>
+    <Mapping cloverField="sent" trim="true" xpath="_x005flinks/sent"/>
+    <Mapping cloverField="clicked" trim="true" xpath="_x005flinks/clicked"/>
+    <Mapping cloverField="opened" trim="true" xpath="_x005flinks/opened"/>
+  </Context>
+</Context>
+]]></attr>
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:/Users/sbakka/Desktop/vmproject1/govdeli_resp.json]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_OBJECT_LIST:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="3611fc1b-ddcb-43f9-8d47-838789236047" outPort="Port 0 (out)" toNode="BEAN_WRITER0:0"/>
+<Edge debugMode="true" fromNode="JSON_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="78889337-99ea-45a5-9b2d-5687fc11e290" outPort="Port 0 (out)" toNode="FOREACH_OBJECT_LIST:0"/>
+</Phase>
+</Graph>

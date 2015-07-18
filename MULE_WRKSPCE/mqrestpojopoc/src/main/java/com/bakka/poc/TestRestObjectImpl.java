@@ -1,14 +1,6 @@
 package com.bakka.poc;
 
-import java.util.LinkedList;
 import java.util.List;
-
-import org.mule.api.MuleEventContext;
-import org.mule.api.MuleMessage;
-import org.mule.api.lifecycle.Callable;
-import org.mule.api.transport.PropertyScope;
-
-import com.bakka.poc.Customer;
 
 public class TestRestObjectImpl   {
 	

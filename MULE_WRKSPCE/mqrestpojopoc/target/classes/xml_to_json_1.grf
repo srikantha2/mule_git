@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="sbakka" created="Sat Jul 11 09:09:20 EDT 2015" description="XML To JSON" guiVersion="3.4.4.P" id="1436623405805" licenseCode="Unlicensed" licenseType="Unknown" modified="Sat Jul 11 09:09:20 EDT 2015" modifiedBy="sbakka" name="XML_To_JSON" preview-file="C:/Users/sbakka/Desktop/vmproject1/govDeli_req.xml" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __filteredMetadata="false" __index="0" __referenceCounter="2" __schemaType="emailType" __sourcePath="{}/email" _dataStructure="OBJECT" _id="__id" _type="Input" id="4a917247-50f0-425e-a429-afa0d1191b93">
+<Record fieldDelimiter="," name="email" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __schemaType="emailType" __sourcePath="{}/email/body" containerType="SINGLE" label="body" name="body" type="string"/>
+<Field __index="1" __schemaType="emailType" __sourcePath="{}/email/from_name" containerType="SINGLE" label="from_name" name="from_name" type="string"/>
+<Field __index="2" __schemaType="emailType" __sourcePath="{}/email/errors_to" containerType="SINGLE" label="errors_to" name="errors_to" type="string"/>
+<Field __index="3" __schemaType="emailType" __sourcePath="{}/email/from_email" containerType="SINGLE" label="from_email" name="from_email" type="string"/>
+<Field __index="4" __schemaType="emailType" __sourcePath="{}/email/subject" containerType="SINGLE" label="subject" name="subject" type="string"/>
+<Field __index="5" __schemaType="recipientsType" __sourcePath="{}/email/recipients/email" containerType="list" label="email" name="email" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="960d26ae-9efa-4b3f-9e9d-ea6659bf833b">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/body" containerType="SINGLE" label="body" name="body" type="string"/>
+<Field __index="1" __sourcePath="{}/object/from_x005fname" containerType="SINGLE" label="from_name" name="from_name" type="string"/>
+<Field __index="2" __sourcePath="{}/object/errors_x005fto" containerType="SINGLE" label="errors_to" name="errors_to" type="string"/>
+<Field __index="3" __sourcePath="{}/object/from_x005femail" containerType="SINGLE" label="from_email" name="from_email" type="string"/>
+<Field __index="4" __sourcePath="{}/object/subject" containerType="SINGLE" label="subject" name="subject" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="5" __referenceCounter="1" __sourcePath="{}/object/recipients" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="960d26ae-9efa-4b3f-9e9d-ea6659bf833b" _parent_id="__parent_id" _type="Output" id="2b2e5d59-27aa-4d56-8c7a-af0f08aa3d55">
+<Record fieldDelimiter="," name="recipients" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="5" __sourcePath="{}/object/recipients/email" containerType="SINGLE" label="email" name="email" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" guiName="Foreach 'email' -&gt; 'object'" guiX="460" guiY="20" id="FOREACH_EMAIL_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+output.body = input.body;
+output.from_name = input.from_name;
+output.errors_to = input.errors_to;
+output.from_email = input.from_email;
+output.subject = input.subject;
+]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'email' -&gt; 'recipients'" guiX="460" guiY="120" id="FOREACH_EMAIL_RECIPIENTS" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+output.__parent_id = input.__id;
+//END -> DO NOT REMOVE
+output.email = input.email;
+]]></attr>
+</Node>
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="JSON WRITER" guiX="900" guiY="20" id="JSON_WRITER0" type="JSON_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <body>$0.body</body>
+  <clover:element clover:name="from_name">$0.from_name</clover:element>
+  <clover:element clover:name="errors_to">$0.errors_to</clover:element>
+  <clover:element clover:name="from_email">$0.from_email</clover:element>
+  <subject>$0.subject</subject>
+  <clover:collection clover:name="recipients">
+    <item clover:inPort="1" clover:key="__parent_id" clover:parentKey="__id">
+      <email>$1.email</email>
+    </item>
+  </clover:collection>
+</object>]]></attr>
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:/Users/sbakka/Desktop/vmproject1/govDeli_req.json]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Duplicate email" guiX="240" guiY="20" id="SIMPLE_COPY0" type="SIMPLE_COPY"/>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="xmlSchemaURL"><![CDATA[./src/test/resources/email.xsd]]></attr>
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath="/email">
+  <Mapping cloverField="body" trim="true" xpath="body"/>
+  <Mapping cloverField="from_name" trim="true" xpath="from_name"/>
+  <Mapping cloverField="errors_to" trim="true" xpath="errors_to"/>
+  <Mapping cloverField="from_email" trim="true" xpath="from_email"/>
+  <Mapping cloverField="subject" trim="true" xpath="subject"/>
+  <Mapping cloverField="email" trim="true" xpath="recipients/email"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__rootGlobalElementName"><![CDATA[email]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_EMAIL_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="960d26ae-9efa-4b3f-9e9d-ea6659bf833b" outPort="Port 0 (out)" toNode="JSON_WRITER0:0"/>
+<Edge debugMode="true" fromNode="FOREACH_EMAIL_RECIPIENTS:0" guiBendpoints="" id="Edge4" inPort="Port 1 (in)" metadata="2b2e5d59-27aa-4d56-8c7a-af0f08aa3d55" outPort="Port 0 (out)" toNode="JSON_WRITER0:1"/>
+<Edge debugMode="true" fromNode="SIMPLE_COPY0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="4a917247-50f0-425e-a429-afa0d1191b93" outPort="Port 0 (out)" toNode="FOREACH_EMAIL_OBJECT:0"/>
+<Edge debugMode="true" fromNode="SIMPLE_COPY0:1" guiBendpoints="" id="Edge3" inPort="Port 0 (in)" metadata="4a917247-50f0-425e-a429-afa0d1191b93" outPort="Port 1 (out)" toNode="FOREACH_EMAIL_RECIPIENTS:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge2" inPort="Port 0 (in)" metadata="4a917247-50f0-425e-a429-afa0d1191b93" outPort="Port 0 (out)" toNode="SIMPLE_COPY0:0"/>
+</Phase>
+</Graph>

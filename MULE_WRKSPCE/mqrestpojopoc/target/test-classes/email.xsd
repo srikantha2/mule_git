@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="email" type="emailType"/>
+  <xs:complexType name="emailType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="body"/>
+      <xs:element type="xs:string" name="from_name"/>
+      <xs:element type="xs:string" name="errors_to"/>
+      <xs:element type="xs:string" name="from_email"/>
+      <xs:element type="xs:string" name="subject"/>
+      <xs:element type="recipientsType" name="recipients"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recipientsType">
+    <xs:sequence>
+      <xs:element type="recipientType" name="recipient" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recipientType">
+    <xs:sequence>
+      <xs:element name="email">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="sbakka@dwd.in.gov"/>
+            <xs:enumeration value="sribakki@gmail.com"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

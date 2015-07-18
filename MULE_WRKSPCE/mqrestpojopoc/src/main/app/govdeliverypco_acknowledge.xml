@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:https="http://www.mulesoft.org/schema/mule/https"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/https http://www.mulesoft.org/schema/mule/https/current/mule-https.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <https:endpoint exchange-pattern="request-response" method="GET" name="HTTP5" address="${govdelivary.emailAddress}/#[payload.ID]/recipients/"    doc:name="HTTP5" connector-ref=""/>
+    <data-mapper:config name="JSON_To_PojoA1" transformationGraphPath="json_to_pojo_3.grf" doc:name="JSON_To_PojoA1"/>
+
+    <flow name="govdeliverypco_acknowledgeFlow1" doc:name="govdeliverypco_acknowledgeFlow1">
+        <poll doc:name="Poll">
+            <fixed-frequency-scheduler frequency="50000" startDelay="10000"/>
+            <db:select config-ref="Oracle_Configuration2" doc:name="Database">
+                <db:parameterized-query><![CDATA[select * from  temp.customer c where c.emailstatus in ('I')  order by c.datecreated asc]]></db:parameterized-query>
+            </db:select>
+        </poll>
+        <logger message="Logger1: #[payload]" level="INFO" doc:name="Logger1"/>
+        <foreach doc:name="For Each">
+            <echo-component doc:name="Echo"/>
+                    <logger message="Logger2: #[payload.ID]" level="INFO" doc:name="Logger2"/>
+            
+            <http:outbound-endpoint exchange-pattern="request-response"
+			method="GET"  doc:name="HTTP31" ref="HTTP5">
+			<message-properties-transformer name="SetHeaders2" scope="outbound">
+				<add-message-property key="${govdelivary.authname}" value="${govdelivary.authtoken}"/>
+			</message-properties-transformer>
+			</http:outbound-endpoint>
+            <data-mapper:transform config-ref="JSON_To_PojoA1" doc:name="JSON To PojoA1"/>
+            <logger message="Logger3:#[payload]" level="INFO" doc:name="Logger3"/>
+            <foreach doc:name="For Each">
+                <logger message="logger4:#[payload.recpId] :: #[payload.emailTxId] :: #[payload.emailAddress]" level="INFO" doc:name="Logger"/>
+                <set-variable variableName="varEmail" value="#[payload.emailAddress]" doc:name="varEmail"/>
+                <set-variable variableName="VarTxId" value="#[payload.emailTxId]" doc:name="VarTxId"/>
+                <set-variable variableName="varRepId" value="#[payload.recpId]" doc:name="varRepId"/>
+                <set-variable variableName="VarStatus" value="#[payload.status]" doc:name="VarStatus"/>
+                <db:select config-ref="Oracle_Configuration2" doc:name="Database">
+                    <db:parameterized-query><![CDATA[select status from temp.recipient where EmailTxId= #[payload.emailTxId] and recpid= #[payload.recpId]]]></db:parameterized-query>
+                </db:select>
+                <logger message="Logger5 : #[payload] " level="INFO" doc:name="Logger5"/>
+                <choice doc:name="Choice">
+                    <when expression=" payload.size()==0 ||  payload[0].STATUS == null  " evaluator="groovy">
+                        <logger message="Logger7:#[payload]" level="INFO" doc:name="Logger7"/>
+                        <db:insert config-ref="Oracle_Configuration2" doc:name="Database_insert">
+                            <db:parameterized-query><![CDATA[INSERT INTO temp.recipient  (recpid, emailaddress, emailtxid, status) VALUES (#[flowVars.varRepId],#[flowVars.varEmail], #[flowVars.VarTxId], #[flowVars.VarStatus])]]></db:parameterized-query>
+                        </db:insert>
+                    </when>
+                    <when expression="payload.size()>0 &amp;&amp; payload[0].STATUS == 'D'  " evaluator="groovy">
+                        <logger message="Logger8: Looks like Email reached recipient- #[flowVars.varEmail]" level="INFO" doc:name="Logger8"/>
+                    </when>
+                    <otherwise>
+                        <logger message="Logger6::#[payload]" level="INFO" doc:name="Logger6"/>
+                        <db:update config-ref="Oracle_Configuration2" doc:name="Database_update">
+                            <db:parameterized-query><![CDATA[update temp.recipient  set status = #[flowVars.VarStatus] where recpid=#[flowVars.varRepId] and emailtxid= #[flowVars.VarTxId]]]></db:parameterized-query>
+                        </db:update>
+                    </otherwise>
+                </choice>
+            </foreach>
+            <logger message="Logger9: #[payload[0].emailTxId]" level="INFO" doc:name="Logger9"/>
+            <set-variable variableName="VarTxInfo" value="#[payload[0].emailTxId]" doc:name="VarTxInfo"/>
+            <db:select config-ref="Oracle_Configuration2" doc:name="Database">
+                <db:parameterized-query><![CDATA[select count(*) from temp.recipient where EmailTxId= #[payload[0].emailTxId] and status in ('F','P')]]></db:parameterized-query>
+            </db:select>
+            <logger message="logger11:: #[payload.size()&gt;0 &amp;&amp; payload[0].'COUNT(*)' &gt; 0]" level="INFO" doc:name="Logger11"/>
+            <choice doc:name="Choice">
+                <when expression="payload.size()&gt;0 &amp;&amp; payload[0].'COUNT(*)' &gt; 0" evaluator="groovy">
+                    <logger message="Some of the Recipeitns in the email batch havn't recieved e-mails yet..." level="INFO" doc:name="Logger"/>
+                </when>
+                <otherwise>
+                    <db:update config-ref="Oracle_Configuration2" doc:name="Database">
+                        <db:parameterized-query><![CDATA[update temp.customer  set EmailStatus ='S' where id= #[flowVars.VarTxInfo]]]></db:parameterized-query>
+                    </db:update>
+                    <logger message="All the emails in this batch are sent successfully" level="INFO" doc:name="Logger"/>
+                </otherwise>
+            </choice>
+			
+        </foreach>
+    </flow>
+</mule>

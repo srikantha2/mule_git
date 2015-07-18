@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="sbakka" created="Sat Jul 11 09:09:20 EDT 2015" description="JSON To Pojo" guiVersion="3.4.4.P" id="1436624790694" licenseCode="Unlicensed" licenseType="Unknown" modified="Sat Jul 11 09:09:20 EDT 2015" modifiedBy="sbakka" name="JSON_To_Pojo" preview-file="C:/Users/sbakka/Desktop/vmproject1/govdeli_resp.json" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="0" __sourcePath="{}/list" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="c43a90f5-2106-43d3-b056-d7e13c2c326c">
+<Record fieldDelimiter="," name="list" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/list/body" containerType="SINGLE" label="body" name="body" type="string"/>
+<Field __index="1" __sourcePath="{}/list/errorEmail" containerType="SINGLE" label="errorEmail" name="errorEmail" type="string"/>
+<Field __index="2" __sourcePath="{}/list/fromEmail" containerType="SINGLE" label="fromEmail" name="fromEmail" type="string"/>
+<Field __index="3" __sourcePath="{}/list/fromName" containerType="SINGLE" label="fromName" name="fromName" type="string"/>
+<Field __index="4" __sourcePath="{}/list/recipients" containerType="list" label="recipients" name="recipients" type="string"/>
+<Field __index="5" __sourcePath="{}/list/subject" containerType="SINGLE" label="subject" name="subject" type="string"/>
+<Field __index="6" __sourcePath="{}/list/txId" containerType="SINGLE" label="txId" name="txId" type="integer"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="0" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Input" id="2ad8d755-2781-498f-8bad-a7d3104a5f8a">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/sid" containerType="SINGLE" label="sid" name="sid" type="string"/>
+<Field __index="1" __sourcePath="{}/object/_x005flinks/self" containerType="SINGLE" label="self" name="self" type="string"/>
+<Field __index="2" __sourcePath="{}/object/_x005flinks/keywords" containerType="SINGLE" label="keywords" name="keywords" type="string"/>
+<Field __index="3" __sourcePath="{}/object/_x005flinks/command_x005ftypes" containerType="SINGLE" label="command_types" name="command_types" type="string"/>
+<Field __index="4" __sourcePath="{}/object/_x005flinks/inbound_x005fsms_x005fmessages" containerType="SINGLE" label="inbound_sms_messages" name="inbound_sms_messages" type="string"/>
+<Field __index="5" __sourcePath="{}/object/_x005flinks/sms_x005fmessages" containerType="SINGLE" label="sms_messages" name="sms_messages" type="string"/>
+<Field __index="6" __sourcePath="{}/object/_x005flinks/email_x005fmessages" containerType="SINGLE" label="email_messages" name="email_messages" type="string"/>
+<Field __index="7" __sourcePath="{}/object/_x005flinks/email_x005ftemplates" containerType="SINGLE" label="email_templates" name="email_templates" type="string"/>
+<Field __index="8" __sourcePath="{}/object/_x005flinks/from_x005faddresses" containerType="SINGLE" label="from_addresses" name="from_addresses" type="string"/>
+<Field __index="9" __sourcePath="{}/object/_x005flinks/voice_x005fmessages" containerType="SINGLE" label="voice_messages" name="voice_messages" type="string"/>
+<Field __index="10" __sourcePath="{}/object/_x005flinks/incoming_x005fvoice_x005fmessages" containerType="SINGLE" label="incoming_voice_messages" name="incoming_voice_messages" type="string"/>
+<Field __index="11" __sourcePath="{}/object/_x005flinks/webhooks" containerType="SINGLE" label="webhooks" name="webhooks" type="string"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Pojo WRITER" guiX="900" guiY="20" id="BEAN_WRITER0" type="BEAN_WRITER">
+<attr name="_data_format"><![CDATA[JAVA]]></attr>
+<attr name="schema"><![CDATA[<?xml version="1.0" encoding="UTF-8"?><schema-object>
+  <schema-collection>
+    <typed-object-ref type-ref="com.uim.poc.MailTemp1RespForm"/>
+  </schema-collection>
+  <typed-object type="com.uim.poc.MailTemp1RespForm">
+    <typed-object-ref name="body" type-ref="java.lang.String"/>
+    <typed-object-ref name="errorEmail" type-ref="java.lang.String"/>
+    <typed-object-ref name="fromEmail" type-ref="java.lang.String"/>
+    <typed-object-ref name="fromName" type-ref="java.lang.String"/>
+    <schema-collection name="recipients" type="java.util.List">
+      <typed-object-ref type-ref="java.lang.String"/>
+    </schema-collection>
+    <typed-object-ref name="subject" type-ref="java.lang.String"/>
+    <typed-object-ref name="txId" type-ref="int"/>
+  </typed-object>
+  <typed-object type="int"/>
+  <typed-object type="java.lang.String"/>
+</schema-object>
+]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="JSON READER" guiX="20" guiY="20" id="JSON_READER0" type="JSON_READER">
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[C:/Users/sbakka/Desktop/vmproject1/govdeli_resp.json]]></attr>
+</Node>
+</Phase>
+</Graph>

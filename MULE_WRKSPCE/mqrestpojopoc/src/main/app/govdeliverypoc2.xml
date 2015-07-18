@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:https="http://www.mulesoft.org/schema/mule/https" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/https http://www.mulesoft.org/schema/mule/https/current/mule-https.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+	<jms:activemq-connector name="Active_MQ2"
+		brokerURL="${activemq.brokerUrl}" validateConnections="true" doc:name="Active MQ1" />
+	<db:oracle-config name="Oracle_Configuration2" host="${oracle.hostname}"
+		port="${oracle.port}" instance="${oracle.service}" user="${oracle.user}" password="${oracle.pass}"
+		doc:name="Oracle Configuration" />
+    <data-mapper:config name="JSON_To_Pojo2" transformationGraphPath="json_to_pojo_2.grf" doc:name="JSON_To_Pojo2"/>
+    <https:endpoint exchange-pattern="request-response" method="POST" name="HTTP4" address="${govdelivary.emailAddress}"    doc:name="HTTP4" connector-ref=""/>
+    <data-mapper:config name="XML_To_Pojo" transformationGraphPath="xml_to_pojo.grf" doc:name="XML_To_Pojo"/>
+	<flow name="jmsproject1Flow3" doc:name="jmsproject1Flow3">
+		<jms:inbound-endpoint queue="GOVDEVQueue"
+			connector-ref="Active_MQ2" doc:name="JMS" />
+		<logger message="payload(Logger-1): #[payload]" level="INFO"
+			doc:name="Logger12" />
+        <flow-ref name="govdeliverypoc2Flow1" doc:name="Flow Reference"/>
+		
+        
+        <file:outbound-endpoint path="${file.output.requestjson}" responseTimeout="10000" doc:name="File"/>
+		<logger message="payload (Logger2): #[payload]" level="INFO"
+			doc:name="Logger2" />
+		<http:outbound-endpoint exchange-pattern="request-response"
+			method="POST"  doc:name="HTTP21" ref="HTTP4">
+				<message-properties-transformer name="SetHeaders1" scope="outbound">
+			<add-message-property key="${govdelivary.authname}" value="${govdelivary.authtoken}"/>
+			</message-properties-transformer>
+			</http:outbound-endpoint>
+        <logger message="After rest call #[payload]" level="INFO" doc:name="Logger"/>
+        <data-mapper:transform doc:name="JSON To Pojo2" config-ref="JSON_To_Pojo2"/>
+		<component class="com.bakka.poc.MailTemp1Processing" doc:name="Java" />
+		<logger
+			message="Payload (logger3): #[payload] --#[payload[0].txId]:: #[payload[0].name]"
+			level="INFO" doc:name="Logger" />
+		<db:insert config-ref="Oracle_Configuration2" doc:name="Database">
+            <db:parameterized-query><![CDATA[INSERT INTO temp.customer  (id, name) VALUES (#[payload[0].txId],#[payload[0].fromName])]]></db:parameterized-query>
+		</db:insert>
+	</flow>
+    <sub-flow name="govdeliverypoc2Flow1" doc:name="govdeliverypoc2Flow1">
+        <data-mapper:transform config-ref="XML_To_Pojo" doc:name="XML To Pojo"/>
+        <component class="com.bakka.poc.MyCustomMapperImpl" doc:name="Java"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    
+    </sub-flow>
+</mule>
